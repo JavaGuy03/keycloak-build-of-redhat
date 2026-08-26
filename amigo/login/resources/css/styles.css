@@ -1,0 +1,373 @@
+/* ==========================================================================
+   Amigo Custom Keycloak Login Theme
+   ========================================================================== */
+
+* {
+    box-sizing: border-box;
+}
+
+html, body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    background: #ffffff;
+}
+
+.amigo-container {
+    display: flex;
+    min-height: 100vh;
+    width: 100%;
+}
+
+/* ---------------------------------------------------------------------- */
+/* LOGO - fixed top-right corner of the whole page                         */
+/* ---------------------------------------------------------------------- */
+
+.amigo-logo-corner {
+    position: fixed;
+    top: 24px;
+    right: 40px;
+    z-index: 50;
+}
+
+.amigo-logo {
+    display: block;
+    height: 56px;
+    width: auto;
+}
+
+/* ---------------------------------------------------------------------- */
+/* LEFT PANEL                                                              */
+/* ---------------------------------------------------------------------- */
+
+.amigo-left {
+    position: relative;
+    flex: 1 1 50%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 60px 72px;
+    background: linear-gradient(160deg, #1a0000 0%, #3d0000 35%, #7a0e0e 65%, #b81f1f 100%);
+    color: #ffffff;
+    overflow: hidden;
+}
+
+.amigo-left-content {
+    position: relative;
+    z-index: 2;
+    max-width: 460px;
+}
+
+.amigo-tagline {
+    font-size: 32px;
+    line-height: 1.32;
+    font-weight: 700;
+    margin: 0 0 18px 0;
+    color: #ffffff;
+    letter-spacing: -0.3px;
+}
+
+.amigo-subtagline {
+    font-size: 15px;
+    line-height: 1.6;
+    color: rgba(255, 255, 255, 0.72);
+    margin: 0;
+    max-width: 380px;
+}
+
+.amigo-footer-left {
+    position: absolute;
+    left: 72px;
+    bottom: 32px;
+    font-size: 12px;
+    color: rgba(255, 255, 255, 0.45);
+    z-index: 2;
+}
+
+/* Decorative glowing shapes, echoing the A-mark of the logo */
+.amigo-glow {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(60px);
+    z-index: 1;
+    pointer-events: none;
+}
+
+.amigo-glow-1 {
+    width: 420px;
+    height: 420px;
+    background: radial-gradient(circle, rgba(255, 30, 30, 0.55) 0%, rgba(255, 30, 30, 0) 70%);
+    top: -120px;
+    right: -140px;
+}
+
+.amigo-glow-2 {
+    width: 360px;
+    height: 360px;
+    background: radial-gradient(circle, rgba(0, 0, 0, 0.6) 0%, rgba(0, 0, 0, 0) 70%);
+    bottom: -140px;
+    left: -100px;
+}
+
+/* Giant translucent logo mark watermark (inline SVG = always crisp, no pixelation) */
+.amigo-mark-watermark {
+    position: absolute;
+    right: -60px;
+    bottom: -110px;
+    width: 480px;
+    height: auto;
+    color: #ffffff;
+    opacity: 0.14;
+    z-index: 1;
+    pointer-events: none;
+    user-select: none;
+    shape-rendering: geometricPrecision;
+}
+
+/* ---------------------------------------------------------------------- */
+/* RIGHT PANEL                                                             */
+/* ---------------------------------------------------------------------- */
+
+.amigo-right {
+    flex: 1 1 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #f5f5f5;
+    padding: 40px;
+}
+
+.amigo-form-card {
+    width: 100%;
+    max-width: 380px;
+}
+
+.amigo-welcome {
+    font-size: 24px;
+    font-weight: 700;
+    color: #111111;
+    margin: 0 0 6px 0;
+    text-align: center;
+}
+
+.amigo-welcome-sub {
+    font-size: 14px;
+    color: #6b6b6b;
+    margin: 0 0 28px 0;
+    text-align: center;
+}
+
+.amigo-field {
+    margin-bottom: 20px;
+}
+
+.amigo-label {
+    display: block;
+    font-size: 13px;
+    font-weight: 600;
+    color: #222222;
+    margin-bottom: 7px;
+}
+
+.amigo-input-wrap {
+    position: relative;
+}
+
+.amigo-input {
+    width: 100%;
+    padding: 13px 16px;
+    font-size: 14px;
+    border: 1.5px solid #e2e2e2;
+    border-radius: 10px;
+    background: #ffffff;
+    color: #111111;
+    outline: none;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.03);
+    transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+.amigo-input::placeholder {
+    color: #b0b0b0;
+}
+
+.amigo-input:hover {
+    border-color: #cfcfcf;
+}
+
+.amigo-input:focus {
+    border-color: #c81e1e;
+    box-shadow: 0 0 0 4px rgba(200, 30, 30, 0.12);
+}
+
+.amigo-input[aria-invalid="true"] {
+    border-color: #c81e1e;
+}
+
+.amigo-field-error {
+    display: block;
+    margin-top: 6px;
+    font-size: 12px;
+    color: #c81e1e;
+}
+
+.amigo-remember-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 24px;
+    font-size: 13px;
+}
+
+.amigo-remember-row-end {
+    justify-content: flex-end;
+}
+
+.amigo-checkbox {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: #444444;
+    cursor: pointer;
+    user-select: none;
+}
+
+.amigo-checkbox input {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 18px;
+    height: 18px;
+    margin: 0;
+    border: 1.5px solid #cfcfcf;
+    border-radius: 50%;
+    background: #ffffff;
+    cursor: pointer;
+    position: relative;
+    transition: border-color 0.15s ease, background 0.15s ease;
+}
+
+.amigo-checkbox input:hover {
+    border-color: #c81e1e;
+}
+
+.amigo-checkbox input:checked {
+    background: #c81e1e;
+    border-color: #c81e1e;
+}
+
+.amigo-checkbox input:checked::after {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 5px;
+    height: 9px;
+    border: solid #ffffff;
+    border-width: 0 2px 2px 0;
+    transform: translate(-50%, -60%) rotate(45deg);
+}
+
+.amigo-link {
+    color: #c81e1e;
+    text-decoration: none;
+    font-weight: 600;
+}
+
+.amigo-link:hover {
+    text-decoration: underline;
+}
+
+.amigo-submit {
+    width: 100%;
+    padding: 13px 14px;
+    font-size: 15px;
+    font-weight: 700;
+    color: #ffffff;
+    background: #111111;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background 0.15s ease, transform 0.05s ease;
+}
+
+.amigo-submit:hover {
+    background: #c81e1e;
+}
+
+.amigo-submit:active {
+    transform: translateY(1px);
+}
+
+.amigo-submit:disabled {
+    opacity: 0.6;
+    cursor: default;
+}
+
+.amigo-signup-row {
+    margin-top: 22px;
+    text-align: center;
+    font-size: 13px;
+    color: #6b6b6b;
+}
+
+.amigo-alert {
+    padding: 10px 14px;
+    border-radius: 8px;
+    font-size: 13px;
+    margin-bottom: 18px;
+}
+
+.amigo-alert-error {
+    background: #fdecec;
+    color: #a10e0e;
+    border: 1px solid #f3b7b7;
+}
+
+.amigo-alert-warning {
+    background: #fff8e6;
+    color: #8a6100;
+    border: 1px solid #f0deac;
+}
+
+.amigo-alert-success {
+    background: #e9f9ee;
+    color: #17703a;
+    border: 1px solid #b6e6c6;
+}
+
+/* ---------------------------------------------------------------------- */
+/* RESPONSIVE                                                              */
+/* ---------------------------------------------------------------------- */
+
+@media (max-width: 900px) {
+    .amigo-container {
+        flex-direction: column;
+    }
+    .amigo-logo-corner {
+        top: 20px;
+        right: 24px;
+    }
+    .amigo-logo {
+        height: 38px;
+    }
+    .amigo-left {
+        padding: 88px 28px 48px 28px;
+        min-height: 260px;
+    }
+    .amigo-tagline {
+        font-size: 22px;
+    }
+    .amigo-mark-watermark {
+        width: 280px;
+        right: -30px;
+        bottom: -70px;
+    }
+    .amigo-footer-left {
+        position: static;
+        left: auto;
+        margin-top: 24px;
+    }
+    .amigo-right {
+        padding: 32px 24px 60px 24px;
+    }
+}
