@@ -38,7 +38,7 @@ docker login quay.ocp.lab.local
 ### C. Đăng nhập Harbor (nếu dự án sử dụng Harbor làm Image Registry)
 
 ```bash
-docker login <dia_chi_harbor_cua_ban>
+docker login harbor.amigo.lab
 ```
 
 > Nhập username và password do quản trị viên Harbor cung cấp.
