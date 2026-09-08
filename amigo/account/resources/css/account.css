@@ -1,0 +1,134 @@
+/* ==========================================================================
+   Amigo Account Console theme (override cho Account Console v3 - React/PatternFly)
+   Mục tiêu: đồng bộ font Inter + màu đỏ thương hiệu Amigo với trang Login,
+   KHÔNG động vào cấu trúc React (không thể và không nên).
+   ========================================================================== */
+
+/* ---- Font Inter (tự host, giống hệt login theme) ---- */
+@font-face {
+    font-family: "Inter";
+    src: url("../fonts/Inter-Regular.woff2") format("woff2");
+    font-weight: 400;
+    font-style: normal;
+    font-display: swap;
+}
+@font-face {
+    font-family: "Inter";
+    src: url("../fonts/Inter-Medium.woff2") format("woff2");
+    font-weight: 500;
+    font-style: normal;
+    font-display: swap;
+}
+@font-face {
+    font-family: "Inter";
+    src: url("../fonts/Inter-SemiBold.woff2") format("woff2");
+    font-weight: 600;
+    font-style: normal;
+    font-display: swap;
+}
+@font-face {
+    font-family: "Inter";
+    src: url("../fonts/Inter-Bold.woff2") format("woff2");
+    font-weight: 700;
+    font-style: normal;
+    font-display: swap;
+}
+
+/* Ép toàn bộ trang dùng Inter — dùng "*" để không phụ thuộc việc đoán đúng
+   class/prefix PatternFly (pf-v5-, pf-v6-, pf-c-...) mà bản RHBK này dùng. */
+* {
+    font-family: "Inter", -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif !important;
+}
+
+/* ---- Màu thương hiệu Amigo (đỏ) thay cho xanh dương mặc định ----
+   Khai báo cả biến PatternFly v5 (--pf-v5-*) lẫn v6 (--pf-t--*) vì RHBK có thể
+   dùng 1 trong 2 tùy version. Khai báo dư không gây hại - trình duyệt chỉ áp
+   dụng biến nào thực sự được các class PatternFly tham chiếu tới. */
+:root {
+    /* PatternFly v5 token */
+    --pf-v5-global--primary-color--100: #c81e1e;
+    --pf-v5-global--primary-color--200: #a10e0e;
+    --pf-v5-global--link--Color: #c81e1e;
+    --pf-v5-global--link--Color--hover: #a10e0e;
+    --pf-v5-global--active-color--100: #c81e1e;
+
+    /* PatternFly v6 token (nếu RHBK đã nâng cấp) */
+    --pf-t--global--color--brand--default: #c81e1e;
+    --pf-t--global--color--brand--hover: #a10e0e;
+    --pf-t--global--color--brand--clicked: #8a0c0c;
+    --pf-t--global--text--color--link--default: #c81e1e;
+    --pf-t--global--text--color--link--hover: #a10e0e;
+}
+
+/* Lưới an toàn: chọn theo "class CHỨA chuỗi con" thay vì chọn đúng class
+   pf-v5-.../pf-v6-... -> khớp được với BẤT KỲ version PatternFly nào,
+   vì "c-button" và "m-primary" luôn xuất hiện trong tên class dù prefix
+   version là gì (pf-v5-c-button, pf-v6-c-button, pf-c-button...). */
+[class*="c-button"][class*="m-primary"] {
+    background-color: #c81e1e !important;
+    border-color: #c81e1e !important;
+    color: #ffffff !important;
+}
+
+[class*="c-button"][class*="m-primary"]:hover {
+    background-color: #a10e0e !important;
+    border-color: #a10e0e !important;
+}
+
+a {
+    color: #c81e1e;
+}
+
+/* Thanh điều hướng bên trái - mục đang chọn (mặc định xanh) */
+[class*="c-nav__link"][class*="m-current"] {
+    color: #c81e1e !important;
+}
+
+[class*="c-nav__link"][class*="m-current"]::before {
+    background-color: #c81e1e !important;
+}
+
+/* ---- Thêm logo Amigo cạnh logo Red Hat trong masthead ----
+   QUAN TRỌNG: selector ".amigo-masthead-target" bên dưới là CHỖ CẦN BẠN THAY
+   bằng class thật của khối chứa logo, lấy được bằng cách:
+     1. Mở trang Account Console thật trên trình duyệt
+     2. Bấm F12 (DevTools) -> chọn công cụ "chọn phần tử" (mũi tên)
+     3. Click đúng vào logo/chữ "Red Hat build of Keycloak" ở góc trên trái
+     4. Xem class hiển thị trong tab Elements, ví dụ dạng:
+        <div class="pf-v5-c-masthead__brand"> ... hoặc
+        <a class="pf-v5-c-brand"> ...
+     5. Copy đúng class đó, thay vào chỗ ".amigo-masthead-target" bên dưới
+
+   Sau khi thay đúng class, khối logo Red Hat sẽ tự có thêm vạch phân cách +
+   logo Amigo ngay bên phải, giống hệt kiểu "Red Hat | Amigo" ở trang Login. */
+.amigo-masthead-target {
+    display: flex !important;
+    align-items: center;
+}
+
+.amigo-masthead-target::after {
+    content: "";
+    display: inline-block;
+    width: 1px;
+    height: 22px;
+    margin: 0 14px;
+    background: rgba(255, 255, 255, 0.25);
+    vertical-align: middle;
+}
+
+.amigo-masthead-target {
+    position: relative;
+}
+
+.amigo-masthead-target::before {
+    content: "";
+    display: inline-block;
+    width: 92px;
+    height: 28px;
+    margin-left: 14px;
+    background-image: url("../img/amigo-logo-white.png");
+    background-repeat: no-repeat;
+    background-position: left center;
+    background-size: contain;
+    vertical-align: middle;
+}

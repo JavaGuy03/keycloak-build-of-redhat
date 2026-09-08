@@ -1,122 +1,82 @@
-# Amigo Keycloak Custom Provider & Theme (Red Hat Build of Keycloak)
+# Amigo RHBK custom image
 
-Hệ thống Keycloak tích hợp **Custom SPI** (User Federation đồng bộ qua Spring Boot API) kèm theo **Custom Login Theme** (`amigo`) dành riêng cho dự án.
+Optimized Red Hat build of Keycloak 26.6 image containing:
 
----
+- Remote User Storage SPI and custom Browser authenticator.
+- Base VN/EN message theme `amigo-base` packaged in the provider JAR.
+- Branded login/account theme `amigo`, with login inheriting `amigo-base`.
+- Health and metrics support enabled at image build time.
 
-## Mục lục
+## Prerequisites
 
-1. [Hướng dẫn đăng nhập Container Registries](#1-hướng-dẫn-đăng-nhập-container-registries)
-2. [Cấu trúc thư mục dự án](#2-cấu-trúc-thư-mục-dự-án)
-3. [Quy trình Build, Chạy và Triển khai](#3-quy-trình-build-chạy-và-triển-khai)
-4. [Cấu hình kích hoạt trên Keycloak Admin](#4-cấu-hình-kích-hoạt-trên-keycloak-admin)
+- Java 17 and Maven available on `PATH`.
+- Docker authenticated to `registry.redhat.io`.
+- Access to the Red Hat GA Maven repository.
+- Access to the target Quay/Harbor registry.
 
----
+## Build
 
-## 1. Hướng dẫn Đăng nhập Container Registries
+Run from this directory:
 
-Trước khi tiến hành build hoặc push image lên các môi trường lưu trữ, bạn cần thực hiện đăng nhập vào các registry tương ứng.
-
-### A. Đăng nhập Red Hat Registry (để tải base image)
-
-Red Hat yêu cầu xác thực để kéo image `registry.redhat.io`. Bạn cần có tài khoản Red Hat Developer:
-
-```bash
-docker login registry.redhat.io
+```powershell
+.\build.ps1 -Image quay.ocp.lab.local/dinhhb/keycloak-custom:1.0.0
+docker push quay.ocp.lab.local/dinhhb/keycloak-custom:1.0.0
 ```
 
-> Nhập Username và Password tài khoản Red Hat của bạn.
+The script runs provider tests, packages the JAR, copies it to `providers/keycloak-custom-provider.jar`, verifies its SHA-256 checksum and then builds the image. Dockerfile deliberately ignores the old snapshot-named JARs, preventing a stale provider from entering the image.
 
-### B. Đăng nhập Quay.io (Image Registry nội bộ của Lab)
+Use immutable release tags. For stricter reproducibility, pass an RHBK image pinned by digest:
 
-```bash
-docker login quay.ocp.lab.local
+```powershell
+docker build --build-arg RHBK_IMAGE=registry.redhat.io/rhbk/keycloak-rhel9@sha256:<digest> -t <target-image> .
 ```
 
-> Nhập thông tin tài khoản truy cập Quay của bạn.
+## Local run
 
-### C. Đăng nhập Harbor (nếu dự án sử dụng Harbor làm Image Registry)
+Create a local `.env` from `.env.example`, set non-production values, then:
 
-```bash
-docker login harbor.amigo.lab
-```
-
-> Nhập username và password do quản trị viên Harbor cung cấp.
-
----
-
-## 2. Cấu trúc Thư mục Dự án
-
-```
-keycloak-build-of-redhat/
-├── amigo/                  # Thư mục chứa Custom Login Theme (Amigo)
-├── providers/              # Chứa các file .jar của Custom SPI
-├── Dockerfile              # File đóng gói Keycloak + SPI + Theme
-├── docker-compose.yaml     # Cấu hình chạy local (Keycloak + PostgreSQL)
-└── README.md
-```
-
----
-
-## 3. Quy trình Build, Chạy và Triển khai
-
-### Bước 1: Chuẩn bị Provider và Theme
-
-- Đảm bảo file `.jar` của SPI đã được đặt trong thư mục `providers/`.
-- Thư mục giao diện `amigo` đã được đặt ngang hàng với `Dockerfile`.
-
-### Bước 2: Build Docker Image
-
-Thực hiện build image cục bộ chứa cả Keycloak, Custom SPI và Custom Login Theme:
-
-```bash
-docker compose build
-```
-
-Hoặc dùng lệnh Docker thuần:
-
-```bash
-docker build -t keycloak-build-of-redhat-keycloak:latest .
-```
-
-### Bước 3: Chạy ứng dụng dưới Local (Docker Compose)
-
-Khởi động hệ thống (bao gồm PostgreSQL và Keycloak Server):
-
-```bash
+```powershell
+.\build.ps1 -Image keycloak-custom:dev
 docker compose up -d
 ```
 
-- **Keycloak Admin Console:** `http://localhost:8080/admin/` (Tài khoản mặc định: `admin` / `admin`)
-- **Realm:** `vietinbank-demo`
+The compose file is for development only. Production deployment uses the RHBK Operator template in [openshift/keycloak.example.yaml](openshift/keycloak.example.yaml).
 
-### Bước 4: Tag và Push Image lên Registry (Quay.io / Harbor)
+## Before production
 
-Sau khi build thành công ở local, tiến hành đẩy image lên registry để chuẩn bị deploy lên cụm OpenShift/Lab:
+- Revoke the old internal API key at the identity API, generate a new value and update the `keycloak-remote-provider` OpenShift Secret. Restart the Keycloak Pods through the approved Operator rollout so the new environment value is loaded.
+- Rotate the Redis password that previously appeared in repository history at the real Redis service, update every consuming application's Secret and restart those workloads. This SPI does not connect to Redis; that credential belongs to the mock/backend environment.
+- Removing a value from the current files or rewriting Git history does not invalidate it. Rotation at the issuing service is mandatory; history cleanup is only a secondary containment step.
+- Keep production values in the platform secret manager, not in `.env`, Realm exports, manifests or build arguments.
 
-1. Tag image theo chuẩn phiên bản:
+## Provider settings
 
-```bash
-docker tag keycloak-build-of-redhat-keycloak:latest quay.ocp.lab.local/dinhhb/keycloak-custom:1.0
-```
+Inject these variables into the Keycloak container:
 
-2. Push image lên registry:
+| Variable | Required | Description |
+|---|---|---|
+| `AMIGO_VERIFY_API_URL` | yes | POST credential verification endpoint |
+| `AMIGO_USER_API_URL` | yes | GET user-by-username base URL |
+| `AMIGO_USER_BY_ID_API_URL` | no | GET user-by-immutable-ID base URL |
+| `AMIGO_INTERNAL_API_KEY` | yes | Rotated internal API key |
 
-```bash
-docker push quay.ocp.lab.local/dinhhb/keycloak-custom:1.0
-```
+Production identity endpoints must use HTTPS because the verify payload contains the user's password. Plain HTTP is disabled by default; local Compose explicitly opts in with `AMIGO_ALLOW_INSECURE_HTTP=true`.
 
----
+When the ID endpoint is configured, new federated identities use the immutable backend ID. Keep that endpoint available beyond the five-minute user cache TTL and across Pod restarts.
 
-## 4. Cấu hình Kích hoạt trên Keycloak Admin
+## Realm configuration
 
-1. Đăng nhập trang Admin, chọn Realm `vietinbank-demo`.
-2. **Kích hoạt Login Theme:** Vào `Realm settings` → tab `Themes` → mục `Login theme` chọn `amigo` → nhấn **Save**.
-3. **Cấu hình User Federation (SPI):** Vào `User federation` → trỏ các URL kết nối sang Spring Boot API (ví dụ: `http://host.docker.internal:8888/api/internal/users`) và nhập `Internal API Key`.
+For an existing Realm:
 
----
+1. Add the `vietinbank-user-storage` User Federation provider.
+2. Set cache policy to `MAX_LIFESPAN` and max lifespan to `300000` milliseconds.
+3. Provision all approved Realm Roles before assigning them in the source system.
+4. Select login theme `amigo` and enable locales `vi` and `en`.
+5. Copy the built-in Browser Flow, replace the username/password form with `Remote Username Password Form`, then bind the copied flow.
 
-## Ghi chú
+The cache TTL is the maximum accepted staleness for profile, role and enabled-state data. Password validation always reaches the identity API.
+Evict the Keycloak user cache when a role or account-state change must take effect before the TTL expires.
 
-- Đảm bảo các registry (`registry.redhat.io`, `quay.ocp.lab.local`, Harbor nội bộ) đã được đăng nhập thành công trước khi build/push, nếu không quá trình sẽ báo lỗi xác thực.
-- Kiểm tra kỹ đường dẫn API trong cấu hình `User Federation` để đảm bảo Keycloak container có thể kết nối tới Spring Boot API (đặc biệt khi chạy trên Docker Desktop cần dùng `host.docker.internal`).
+## OpenShift
+
+See [openshift/README.md](openshift/README.md). The directory is a deployment template, so review environment-specific image, hostname, TLS, database and service URLs before `oc apply`.

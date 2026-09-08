@@ -107,8 +107,8 @@ m450 -304 c148 -19 224 -33 246 -44 10 -6 36 -10 59 -10 22 0 51 -6 63 -14 12
         <!-- RIGHT PANEL -->
         <div class="amigo-right">
             <div class="amigo-form-card">
-                <h2 class="amigo-welcome">Chào mừng trở lại!</h2>
-                <p class="amigo-welcome-sub">Đăng nhập để tiếp tục sử dụng hệ thống</p>
+                <h2 class="amigo-welcome">${msg("amigo.welcome")}</h2>
+                <p class="amigo-welcome-sub">${msg("amigo.welcomeSubtitle")}</p>
 
                 <#if message?has_content && (message.type != 'warning' || !isAppInitiatedAction??)>
                     <div class="amigo-alert amigo-alert-${message.type}">
@@ -120,13 +120,13 @@ m450 -304 c148 -19 224 -33 246 -44 10 -6 36 -10 59 -10 22 0 51 -6 63 -14 12
 
                     <div class="amigo-field">
                         <label for="username" class="amigo-label">
-                            <#if !realm.loginWithEmailAllowed>Tên đăng nhập
-                            <#elseif !realm.registrationEmailAsUsername>Tên đăng nhập hoặc email
-                            <#else>Email</#if>
+                            <#if !realm.loginWithEmailAllowed>${msg("username")}
+                            <#elseif !realm.registrationEmailAsUsername>${msg("usernameOrEmail")}
+                            <#else>${msg("email")}</#if>
                         </label>
                         <input tabindex="1" id="username" class="amigo-input" name="username" value="${(login.username!'')}"
                                type="text" autofocus autocomplete="username"
-                               placeholder="tên đăng nhập hoặc email của bạn"
+                               placeholder="${msg("amigo.usernamePlaceholder")}"
                                aria-invalid="<#if messagesPerField.existsError('username','password')>true</#if>"/>
                         <#if messagesPerField.existsError('username','password')>
                             <span class="amigo-field-error">${kcSanitize(messagesPerField.getFirstError('username','password'))?no_esc}</span>
@@ -134,10 +134,10 @@ m450 -304 c148 -19 224 -33 246 -44 10 -6 36 -10 59 -10 22 0 51 -6 63 -14 12
                     </div>
 
                     <div class="amigo-field">
-                        <label for="password" class="amigo-label">Mật khẩu</label>
+                        <label for="password" class="amigo-label">${msg("password")}</label>
                         <input tabindex="2" id="password" class="amigo-input" name="password"
                                type="password" autocomplete="current-password"
-                               placeholder="mật khẩu của bạn"
+                               placeholder="${msg("amigo.passwordPlaceholder")}"
                                aria-invalid="<#if messagesPerField.existsError('username','password')>true</#if>"/>
                     </div>
 
@@ -145,26 +145,26 @@ m450 -304 c148 -19 224 -33 246 -44 10 -6 36 -10 59 -10 22 0 51 -6 63 -14 12
                         <div class="amigo-remember-row">
                             <label class="amigo-checkbox">
                                 <input tabindex="3" id="rememberMe" name="rememberMe" type="checkbox" <#if login.rememberMe??>checked</#if>>
-                                <span>Ghi nhớ đăng nhập</span>
+                                <span>${msg("rememberMe")}</span>
                             </label>
                             <#if realm.resetPasswordAllowed>
-                                <a tabindex="4" href="${url.loginResetCredentialsUrl}" class="amigo-link">Quên mật khẩu?</a>
+                                <a tabindex="4" href="${url.loginResetCredentialsUrl}" class="amigo-link">${msg("doForgotPassword")}</a>
                             </#if>
                         </div>
                     <#elseif realm.resetPasswordAllowed>
                         <div class="amigo-remember-row amigo-remember-row-end">
-                            <a tabindex="4" href="${url.loginResetCredentialsUrl}" class="amigo-link">Quên mật khẩu?</a>
+                            <a tabindex="4" href="${url.loginResetCredentialsUrl}" class="amigo-link">${msg("doForgotPassword")}</a>
                         </div>
                     </#if>
 
                     <input type="hidden" id="id-hidden-input" name="credentialId" <#if auth?has_content && auth.selectedCredential?has_content>value="${auth.selectedCredential}"</#if>/>
-                    <button tabindex="5" class="amigo-submit" name="login" id="kc-login" type="submit">Đăng nhập</button>
+                    <button tabindex="5" class="amigo-submit" name="login" id="kc-login" type="submit">${msg("doLogIn")}</button>
                 </form>
 
                 <#if realm.password && realm.registrationAllowed && !registrationDisabled??>
                     <p class="amigo-signup-row">
-                        Chưa có tài khoản?
-                        <a tabindex="6" href="${url.registrationUrl}" class="amigo-link">Đăng ký</a>
+                        ${msg("noAccount")}
+                        <a tabindex="6" href="${url.registrationUrl}" class="amigo-link">${msg("doRegister")}</a>
                     </p>
                 </#if>
             </div>

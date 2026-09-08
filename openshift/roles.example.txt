@@ -1,0 +1,6 @@
+# Copy this file outside the repository and replace examples with the approved role catalog.
+ADMIN
+USER
+MAKER
+CHECKER
+AUDITOR
