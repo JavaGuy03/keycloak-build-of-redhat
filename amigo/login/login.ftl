@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="vi">
+<html lang="${(locale.currentLanguageTag)!'vi'}">
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>${(realm.displayNameHtml!realm.displayName)!"Amigo"} - Đăng nhập</title>
+    <title>${msg("amigo.loginTitle")} | ${(realm.displayNameHtml!realm.displayName)!"Amigo"}</title>
     <link rel="icon" href="${url.resourcesPath}/img/amigo-mark.png" type="image/png">
     <link rel="stylesheet" href="${url.resourcesPath}/css/styles.css">
 </head>
@@ -18,8 +18,8 @@
         <!-- LEFT PANEL -->
         <div class="amigo-left">
             <div class="amigo-left-content">
-                <h1 class="amigo-tagline">Nền tảng tích hợp định danh RedHat Keycloak của Amigo.</h1>
-                <p class="amigo-subtagline">Giải pháp tích hợp tin cậy dành cho doanh nghiệp của bạn.</p>
+                <h1 class="amigo-tagline">${msg("amigo.tagline")}</h1>
+                <p class="amigo-subtagline">${msg("amigo.subtagline")}</p>
             </div>
             <div class="amigo-glow amigo-glow-1"></div>
             <div class="amigo-glow amigo-glow-2"></div>
@@ -101,17 +101,26 @@ m450 -304 c148 -19 224 -33 246 -44 10 -6 36 -10 59 -10 22 0 51 -6 63 -14 12
 -47 47 -7 0 -24 -13 -39 -28z"/>
                 </g>
             </svg>
-            <div class="amigo-footer-left">Copyright &copy; ${.now?string("yyyy")} Amigo Technology Solutions. Bảo lưu mọi quyền.</div>
+            <div class="amigo-footer-left">${msg("amigo.copyright", .now?string("yyyy"))}</div>
         </div>
 
         <!-- RIGHT PANEL -->
         <div class="amigo-right">
+            <#if realm.internationalizationEnabled && locale.supported?size gt 1>
+                <nav class="amigo-language-switcher" aria-label="${msg("amigo.language")}">
+                    <#list locale.supported as l>
+                        <a href="${l.url}"
+                           class="amigo-language-link<#if l.label == locale.current> is-active</#if>"
+                           <#if l.label == locale.current>aria-current="page"</#if>>${l.label}</a>
+                    </#list>
+                </nav>
+            </#if>
             <div class="amigo-form-card">
                 <h2 class="amigo-welcome">${msg("amigo.welcome")}</h2>
                 <p class="amigo-welcome-sub">${msg("amigo.welcomeSubtitle")}</p>
 
                 <#if message?has_content && (message.type != 'warning' || !isAppInitiatedAction??)>
-                    <div class="amigo-alert amigo-alert-${message.type}">
+                    <div class="amigo-alert amigo-alert-${message.type}" role="alert">
                         <span>${kcSanitize(message.summary)?no_esc}</span>
                     </div>
                 </#if>

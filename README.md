@@ -88,7 +88,9 @@ For an existing Realm:
 4. Set request timeout to `3` seconds, maximum concurrent requests to `64`, circuit-breaker threshold to `5` and open time to `10` seconds. Tune these values in User Federation for each environment.
 5. Enable the provider only after all required settings have been saved successfully. The sample Realm leaves it disabled intentionally.
 6. On each downstream client that needs application roles, add a multivalued `User Attribute` mapper from `external_roles` to the access-token claim `external_roles`. The sample Realm already configures this for `vietinbank-client`.
-7. Select login theme `amigo` and enable locales `vi` and `en`.
+7. Select login theme `amigo`, enable Internationalization, add supported locales `vi` and `en`, then choose the default locale.
+
+The login page uses Keycloak message bundles and includes a locale selector. OIDC clients may preselect the language with `ui_locales=vi` or `ui_locales=en`; browser-flow errors from the custom authenticator are rendered in that same locale. The account theme is packaged separately and can be selected as `amigo`, but this change only localizes the login experience; account-page message coverage should be completed as a separate step.
 8. Copy the built-in Browser Flow, replace the username/password form with `Remote Username Password Form`, then bind the copied flow.
 
 Realm import is create-only. Rebuilding the image does not update a Realm that already exists in PostgreSQL, so apply new provider settings, protocol mappers and authentication-flow changes through the Admin Console, `kcadm.sh` or a controlled Realm migration.

@@ -130,12 +130,47 @@ html, body {
 /* ---------------------------------------------------------------------- */
 
 .amigo-right {
+    position: relative;
     flex: 1 1 50%;
     display: flex;
     align-items: center;
     justify-content: center;
     background: #f5f5f5;
     padding: 40px;
+}
+
+.amigo-language-switcher {
+    position: absolute;
+    top: 28px;
+    left: 32px;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    padding: 3px;
+    border: 1px solid #dedede;
+    border-radius: 8px;
+    background: #ffffff;
+}
+
+.amigo-language-link {
+    min-width: 72px;
+    padding: 7px 10px;
+    border-radius: 6px;
+    color: #555555;
+    font-size: 12px;
+    font-weight: 600;
+    text-align: center;
+    text-decoration: none;
+}
+
+.amigo-language-link:hover {
+    color: #a10e0e;
+    background: #f5f5f5;
+}
+
+.amigo-language-link.is-active {
+    color: #ffffff;
+    background: #a10e0e;
 }
 
 .amigo-form-card {
@@ -368,6 +403,10 @@ html, body {
         margin-top: 24px;
     }
     .amigo-right {
-        padding: 32px 24px 60px 24px;
+        padding: 84px 24px 60px 24px;
+    }
+    .amigo-language-switcher {
+        top: 24px;
+        left: 24px;
     }
 }
