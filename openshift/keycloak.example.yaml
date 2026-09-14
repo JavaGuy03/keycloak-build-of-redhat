@@ -27,16 +27,6 @@ spec:
   http:
     tlsSecret: keycloak-tls
 
-  env:
-    - name: AMIGO_VERIFY_API_URL
-      value: https://identity-api.ssc3.svc:8443/api/internal/verify
-    - name: AMIGO_USER_API_URL
-      value: https://identity-api.ssc3.svc:8443/api/internal/users
-    - name: AMIGO_INTERNAL_API_KEY
-      secret:
-        name: keycloak-remote-provider
-        key: internal-api-key
-
   additionalOptions:
     - name: metrics-enabled
       value: "true"

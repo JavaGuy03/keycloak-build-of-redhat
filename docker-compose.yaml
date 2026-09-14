@@ -5,7 +5,7 @@ services:
     environment:
       POSTGRES_DB: keycloak
       POSTGRES_USER: keycloak
-      POSTGRES_PASSWORD: ${KC_DB_PASSWORD:?Set KC_DB_PASSWORD in .env}
+      POSTGRES_PASSWORD: ${KC_DB_PASSWORD:?Set KC_DB_PASSWORD in the runtime environment}
     volumes:
       - pgdata:/var/lib/postgresql/data
     networks:
@@ -19,17 +19,13 @@ services:
       KC_DB: postgres
       KC_DB_URL: jdbc:postgresql://postgres:5432/keycloak
       KC_DB_USERNAME: keycloak
-      KC_DB_PASSWORD: ${KC_DB_PASSWORD:?Set KC_DB_PASSWORD in .env}
+      KC_DB_PASSWORD: ${KC_DB_PASSWORD:?Set KC_DB_PASSWORD in the runtime environment}
       KC_HTTP_ENABLED: "true"
       KC_HOSTNAME_STRICT: "false"
       KEYCLOAK_ADMIN: admin
-      KEYCLOAK_ADMIN_PASSWORD: ${KEYCLOAK_ADMIN_PASSWORD:?Set KEYCLOAK_ADMIN_PASSWORD in .env}
-      AMIGO_VERIFY_API_URL: ${AMIGO_VERIFY_API_URL:?Set AMIGO_VERIFY_API_URL in .env}
-      AMIGO_USER_API_URL: ${AMIGO_USER_API_URL:?Set AMIGO_USER_API_URL in .env}
-      AMIGO_INTERNAL_API_KEY: ${AMIGO_INTERNAL_API_KEY:?Set AMIGO_INTERNAL_API_KEY in .env}
-      AMIGO_ALLOW_INSECURE_HTTP: "true"
+      KEYCLOAK_ADMIN_PASSWORD: ${KEYCLOAK_ADMIN_PASSWORD:?Set KEYCLOAK_ADMIN_PASSWORD in the runtime environment}
     ports:
-      - "8888:8080"
+      - "8085:8080"
     depends_on:
       - postgres
     networks:
