@@ -36,20 +36,8 @@ oc -n ssc3 get keycloak,pods
 
 The RHBK Operator version must remain on the 26.6 channel while this image uses RHBK 26.6. Use manual OLM approval for production upgrades. Configure a pull secret on the namespace service account when the target registry is private.
 
-`AMIGO_USER_BY_ID_API_URL` is optional. Remove it from the CR until the identity API implements `GET <base-url>/{immutable-id}`. Without it, new users continue to use username-based external IDs.
+Federated identities use the username as their external ID. The identity contract must keep usernames immutable; introduce a user-by-immutable-ID endpoint before allowing username changes.
 
-The sample User Storage cache lifespan is five minutes (`MAX_LIFESPAN=300000`). Change it in the Realm User Federation settings based on the accepted maximum age for role, enabled state and profile data. Credentials are never cached.
+The sample User Storage cache lifespan is five minutes (`MAX_LIFESPAN=300000`). Change it in the Realm User Federation settings based on the accepted maximum age for external roles, enabled state and profile data. Credentials are never cached.
 
-Provision the approved role catalog before assigning those roles in the identity source. Copy `roles.example.txt` to an environment-owned file, replace the examples, then run:
-
-```powershell
-$env:KEYCLOAK_ADMIN_USERNAME = '<temporary-admin>'
-$env:KEYCLOAK_ADMIN_PASSWORD = '<read-from-secret-manager>'
-.\openshift\provision-realm-roles.ps1 `
-  -KeycloakUrl https://keycloak.apps.example.com `
-  -Realm vietinbank-demo `
-  -RolesFile C:\secure-config\realm-roles.txt
-Remove-Item Env:KEYCLOAK_ADMIN_PASSWORD
-```
-
-The script is idempotent and creates only missing roles. Do not use the example role names as a production authorization catalog without approval from the owning application teams.
+Backend roles are emitted as the multivalued access-token claim `external_roles`. Downstream applications validate the JWT and own authorization; matching Realm Roles do not need to be provisioned in Keycloak. Configure the mapper only on clients or Client Scopes that are allowed to receive this metadata.

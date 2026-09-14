@@ -32,9 +32,6 @@ spec:
       value: https://identity-api.ssc3.svc:8443/api/internal/verify
     - name: AMIGO_USER_API_URL
       value: https://identity-api.ssc3.svc:8443/api/internal/users
-    # Remove this entry until the real identity API supports GET-by-ID.
-    - name: AMIGO_USER_BY_ID_API_URL
-      value: https://identity-api.ssc3.svc:8443/api/internal/users/by-id
     - name: AMIGO_INTERNAL_API_KEY
       secret:
         name: keycloak-remote-provider
