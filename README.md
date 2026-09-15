@@ -94,7 +94,7 @@ The login page uses Keycloak message bundles and includes a locale selector. OID
 
 Theme files and provider bundles are baked into the image. After changing either one, rebuild and recreate the local Keycloak container with `docker compose -f docker-compose.yaml up -d --build --force-recreate keycloak`. The login stylesheet has a versioned URL so browsers fetch the updated CSS after deployment.
 
-The login brand panel uses the project asset `amigo/login/resources/img/amigo-identity-scene.png`, generated from the Amigo mark shape. Keep this file with the theme when building the image; the form area remains plain for contrast and readability.
+The login brand panel uses `amigo/common/resources/img/amigo-identity-scene.png`, generated from the Amigo mark shape. Shared brand images, Inter fonts and `brand.css` live in `amigo/common/resources`; keep that folder with the theme when building the image. The form area remains plain for contrast and readability.
 8. Copy the built-in Browser Flow, replace the username/password form with `Remote Username Password Form`, then bind the copied flow.
 
 Realm import is create-only. Rebuilding the image does not update a Realm that already exists in PostgreSQL, so apply new provider settings, protocol mappers and authentication-flow changes through the Admin Console, `kcadm.sh` or a controlled Realm migration.

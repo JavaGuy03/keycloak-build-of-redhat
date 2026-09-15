@@ -2,6 +2,7 @@
 docker-compose.yaml
 README.md
 openshift
+assets
 *.ps1
 keycloak-custom-provider-1.0-SNAPSHOT.jar
 providers/keycloak-custom-provider-1.0-SNAPSHOT.jar

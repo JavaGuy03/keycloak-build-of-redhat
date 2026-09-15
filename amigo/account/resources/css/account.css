@@ -4,35 +4,7 @@
    KHÔNG động vào cấu trúc React (không thể và không nên).
    ========================================================================== */
 
-/* ---- Font Inter (tự host, giống hệt login theme) ---- */
-@font-face {
-    font-family: "Inter";
-    src: url("../fonts/Inter-Regular.woff2") format("woff2");
-    font-weight: 400;
-    font-style: normal;
-    font-display: swap;
-}
-@font-face {
-    font-family: "Inter";
-    src: url("../fonts/Inter-Medium.woff2") format("woff2");
-    font-weight: 500;
-    font-style: normal;
-    font-display: swap;
-}
-@font-face {
-    font-family: "Inter";
-    src: url("../fonts/Inter-SemiBold.woff2") format("woff2");
-    font-weight: 600;
-    font-style: normal;
-    font-display: swap;
-}
-@font-face {
-    font-family: "Inter";
-    src: url("../fonts/Inter-Bold.woff2") format("woff2");
-    font-weight: 700;
-    font-style: normal;
-    font-display: swap;
-}
+@import url("../../../common/amigo/css/brand.css");
 
 /* Ép toàn bộ trang dùng Inter — dùng "*" để không phụ thuộc việc đoán đúng
    class/prefix PatternFly (pf-v5-, pf-v6-, pf-c-...) mà bản RHBK này dùng. */
@@ -126,7 +98,7 @@ a {
     width: 92px;
     height: 28px;
     margin-left: 14px;
-    background-image: url("../img/amigo-logo-white.png");
+    background-image: url("../../../common/amigo/img/amigo-logo-white.png");
     background-repeat: no-repeat;
     background-position: left center;
     background-size: contain;
