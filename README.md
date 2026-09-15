@@ -91,6 +91,10 @@ For an existing Realm:
 7. Select login theme `amigo`, enable Internationalization, add supported locales `vi` and `en`, then choose the default locale.
 
 The login page uses Keycloak message bundles and includes a locale selector. OIDC clients may preselect the language with `ui_locales=vi` or `ui_locales=en`; browser-flow errors from the custom authenticator are rendered in that same locale. The account theme is packaged separately and can be selected as `amigo`, but this change only localizes the login experience; account-page message coverage should be completed as a separate step.
+
+Theme files and provider bundles are baked into the image. After changing either one, rebuild and recreate the local Keycloak container with `docker compose -f docker-compose.yaml up -d --build --force-recreate keycloak`. The login stylesheet has a versioned URL so browsers fetch the updated CSS after deployment.
+
+The login brand panel uses the project asset `amigo/login/resources/img/amigo-identity-scene.png`, generated from the Amigo mark shape. Keep this file with the theme when building the image; the form area remains plain for contrast and readability.
 8. Copy the built-in Browser Flow, replace the username/password form with `Remote Username Password Form`, then bind the copied flow.
 
 Realm import is create-only. Rebuilding the image does not update a Realm that already exists in PostgreSQL, so apply new provider settings, protocol mappers and authentication-flow changes through the Admin Console, `kcadm.sh` or a controlled Realm migration.
