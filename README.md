@@ -96,7 +96,7 @@ The login page uses Keycloak message bundles and includes a locale selector. OID
 
 Select **Realm settings > Themes > Account theme > amigo** for an existing realm. In **Localization**, enable Internationalization and the `vi` and `en` supported locales. Open `http://localhost:8085/realms/vietinbank-demo/account/` locally.
 
-The account theme presents profile details, security, devices/sessions and connected applications in a light Amigo workspace. Native Keycloak forms, validation, confirmation dialogs and logout remain responsible for account operations. Which actions are available depends on realm policy and the user provider; the theme does not add a backend profile/password update API.
+The account theme presents **My profile**, a grouped **Security** section, **Connected applications**, and **Settings** in a light Amigo workspace that follows the Keycloak account-v3 layout. Native Keycloak forms, validation, confirmation dialogs and logout remain responsible for account operations. Which actions are available depends on realm policy and the user provider; the theme does not add a backend profile/password update API.
 
 **Settings > Display language** switches Vietnamese/English without navigating away from an unsaved form. This preference is stored in this browser, scoped to the realm, not saved to the identity backend. The native profile language field remains available for a persistent account preference if the provider supports updates. Saving that field also synchronizes the theme language. Browser settings do not change the login-page language.
 
@@ -104,7 +104,7 @@ Translations live in `amigo/account/messages/messages_vi.properties` and `messag
 
 The account CSS targets exact PatternFly v5 classes; avoid selectors such as `[class*="c-form"]` that also match every child of a form. The supplemental script only adds the settings control and does not read tokens or inject user profile data as HTML. Check profile, security, sessions, applications, VI/EN switching and mobile layout after a Keycloak upgrade.
 
-Theme files and provider bundles are baked into the image. After changing either one, rebuild and recreate the local Keycloak container with `docker compose -f docker-compose.yaml up -d --build --force-recreate keycloak`. The login stylesheet has a versioned URL so browsers fetch the updated CSS after deployment.
+Local Compose bind-mounts `amigo/` into the Keycloak container and disables theme caching, so account/login CSS changes show after a hard refresh. `docker compose up -d --no-build` does **not** pick up theme edits unless that volume is mounted (recreate the `keycloak` service once after pulling this compose change). Provider JAR changes still require an image rebuild: `docker compose -f docker-compose.yaml up -d --build --force-recreate keycloak`. The login and account stylesheets use a versioned URL so browsers fetch the updated CSS after deployment.
 
 The login brand panel uses `amigo/common/resources/img/amigo-identity-scene.png`, generated from the Amigo mark shape. Shared brand images, Inter fonts and `brand.css` live in `amigo/common/resources`; keep that folder with the theme when building the image. The form area remains plain for contrast and readability.
 8. Copy the built-in Browser Flow, replace the username/password form with `Remote Username Password Form`, then bind the copied flow.

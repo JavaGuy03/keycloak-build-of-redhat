@@ -26,11 +26,20 @@ services:
       KEYCLOAK_ADMIN_PASSWORD: ${KEYCLOAK_ADMIN_PASSWORD:?Set KEYCLOAK_ADMIN_PASSWORD in the runtime environment}
     ports:
       - "8085:8080"
+    volumes:
+      # Local theme edits apply without rebuilding the image.
+      - ./amigo:/opt/keycloak/themes/amigo
     depends_on:
       - postgres
     networks:
       - kc-net
-    command: ["start", "--optimized", "--http-enabled=true"]
+    command:
+      - start
+      - --optimized
+      - --http-enabled=true
+      - --spi-theme-static-max-age=-1
+      - --spi-theme-cache-themes=false
+      - --spi-theme-cache-templates=false
 
 volumes:
   pgdata:

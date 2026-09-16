@@ -1,85 +1,525 @@
 @import url("../../../common/amigo/css/brand.css");
 
-/* Exact component classes prevent styles leaking into every form/layout child. */
-body[data-page-id="account"] {
+/* Account console is PatternFly v5. Target exact component classes only. */
+body {
     --pf-v5-global--primary-color--100: #b71923;
     --pf-v5-global--primary-color--200: #95131b;
+    --pf-v5-global--primary-color--300: #82111a;
     --pf-v5-global--link--Color: #a31520;
     --pf-v5-global--link--Color--hover: #82111a;
     --pf-v5-global--active-color--100: #b71923;
+    --pf-v5-global--danger-color--100: #b71923;
     --pf-v5-global--FontFamily--text: "Inter", "Segoe UI", sans-serif;
     --pf-v5-global--FontFamily--heading: "Inter", "Segoe UI", sans-serif;
-    font-family: var(--pf-v5-global--FontFamily--text);
+    margin: 0;
     color: #25292d;
     background: #fff;
+    font-family: var(--pf-v5-global--FontFamily--text);
+    letter-spacing: 0;
+    -webkit-font-smoothing: antialiased;
+}
+
+html,
+body,
+#app {
+    height: 100%;
+}
+
+.keycloak__loading-container {
+    color: #25292d;
+    background: #fff;
+}
+
+/* Page chrome */
+.pf-v5-c-page {
+    --pf-v5-c-page__sidebar--Width: 248px;
+    --pf-v5-c-page__sidebar--BackgroundColor: #f7f8f8;
+    background: #fff;
+}
+
+.pf-v5-c-page__header,
+.pf-v5-c-masthead {
+    background: #fff;
+    color: #25292d;
+    border-bottom: 1px solid #e4e7e9;
+    box-shadow: none;
+    min-height: 72px;
+    padding-inline: 28px;
+}
+
+.pf-v5-c-page__header .pf-v5-c-toolbar,
+.pf-v5-c-masthead .pf-v5-c-toolbar {
+    background: transparent;
+    color: inherit;
+}
+
+.pf-v5-c-masthead__main,
+.pf-v5-c-page__header-brand {
+    align-items: center;
+}
+
+.pf-v5-c-page__header-brand-link img,
+.pf-v5-c-masthead__brand img,
+.pf-v5-c-brand img {
+    display: block;
+    height: 36px;
+    width: auto;
+    max-width: 168px;
+    object-fit: contain;
+}
+
+.pf-v5-c-page__header .pf-v5-c-toolbar__content,
+.pf-v5-c-masthead .pf-v5-c-toolbar__content {
+    justify-content: flex-end;
+    gap: 8px;
+}
+
+.pf-v5-c-page__header .pf-v5-c-button,
+.pf-v5-c-masthead .pf-v5-c-button,
+.pf-v5-c-page__header .pf-v5-c-dropdown__toggle {
+    color: #363b40;
+}
+
+.pf-v5-c-page__header .pf-v5-c-menu-toggle,
+.pf-v5-c-masthead .pf-v5-c-menu-toggle {
+    min-height: 36px;
+    padding-inline: 12px;
+    border: 1px solid #d6d9dc;
+    border-radius: 6px;
+    background: #fff;
+    color: #25292d;
+    font-size: 14px;
+    font-weight: 500;
+    box-shadow: none;
+}
+
+.pf-v5-c-page__header .pf-v5-c-menu-toggle:hover,
+.pf-v5-c-masthead .pf-v5-c-menu-toggle:hover {
+    background: #f7f8f8;
+    border-color: #c5cacd;
+}
+
+.pf-v5-c-page__header .pf-v5-c-avatar,
+.pf-v5-c-masthead .pf-v5-c-avatar {
+    --pf-v5-c-avatar--Width: 32px;
+    --pf-v5-c-avatar--Height: 32px;
+}
+
+/* Sidebar */
+.pf-v5-c-page__sidebar {
+    background: #f7f8f8;
+    border-right: 1px solid #e4e7e9;
+    box-shadow: none;
+}
+
+.pf-v5-c-page__sidebar-body {
+    display: flex;
+    flex-direction: column;
+    min-height: 100%;
+    padding: 24px 16px 20px;
+}
+
+.pf-v5-c-nav {
+    --pf-v5-c-nav__link--Color: #555d64;
+    --pf-v5-c-nav__link--hover--Color: #25292d;
+    --pf-v5-c-nav__link--m-current--Color: #a31520;
+    --pf-v5-c-nav__link--m-current--BackgroundColor: #fbeaec;
+    --pf-v5-c-nav__link--hover--BackgroundColor: #ecefef;
+    --pf-v5-c-nav__link--FontWeight: 500;
+    --pf-v5-c-nav__link--PaddingTop: 12px;
+    --pf-v5-c-nav__link--PaddingBottom: 12px;
+    --pf-v5-c-nav__link--PaddingLeft: 16px;
+    --pf-v5-c-nav__link--PaddingRight: 16px;
+}
+
+.pf-v5-c-nav__list {
+    row-gap: 4px;
+}
+
+.pf-v5-c-nav__link {
+    border-radius: 6px;
+    font-size: 14px;
+}
+
+.pf-v5-c-nav__link.pf-m-current {
+    font-weight: 600;
+}
+
+.pf-v5-c-nav__link::before,
+.pf-v5-c-nav__link::after,
+.pf-v5-c-nav__item::before {
+    border: 0;
+}
+
+.pf-v5-c-nav__toggle {
+    color: #687178;
+}
+
+.pf-v5-c-nav__subnav {
+    padding: 4px 0 8px 8px;
+}
+
+.pf-v5-c-nav__section-title {
+    color: #626a70;
+    font-size: 12px;
+    font-weight: 600;
+}
+
+.amigo-account-caption {
+    margin: 0 16px 18px;
+    color: #687178;
+    font-size: 12px;
+    font-weight: 600;
+}
+
+.amigo-account-settings {
+    border-top: 1px solid #e4e7e9;
+    margin-top: auto;
+    padding-top: 16px;
+}
+
+.amigo-settings-button {
+    width: 100%;
+    border: 0;
+    background: transparent;
+    text-align: start;
+    padding: 12px 16px;
+    border-radius: 6px;
+    color: #555d64;
+    font: 500 14px "Inter", "Segoe UI", sans-serif;
+    cursor: pointer;
+}
+
+.amigo-settings-button:hover {
+    background: #ecefef;
+    color: #25292d;
+}
+
+/* Main workspace */
+.pf-v5-c-page__main {
+    background: #fff;
+    min-width: 0;
+    padding: 36px 48px 64px;
+}
+
+.pf-v5-c-page__main-section {
+    padding: 0;
+    background: transparent;
+    min-width: 0;
+}
+
+.pf-v5-c-page__main-section + .pf-v5-c-page__main-section {
+    margin-top: 28px;
+}
+
+.pf-v5-c-page__main .pf-v5-c-title.pf-m-2xl,
+.pf-v5-c-page__main .pf-v5-c-title.pf-m-xl {
+    color: #1b1f23;
+    font-size: 28px;
+    font-weight: 650;
+    line-height: 1.3;
     letter-spacing: 0;
 }
-.pf-v5-c-page { --pf-v5-c-page__sidebar--Width: 248px; background: #fff; }
-.pf-v5-c-page__header, .pf-v5-c-masthead {
-    background: #fff; color: #25292d; border-bottom: 1px solid #e4e7e9;
-    box-shadow: none; min-height: 76px; padding-inline: 28px;
+
+.pf-v5-c-page__main .pf-v5-c-content p,
+.pf-v5-c-page__main .pf-v5-c-content .pf-v5-c-content {
+    color: #687178;
+    line-height: 1.7;
 }
-.pf-v5-c-page__header .pf-v5-c-toolbar, .pf-v5-c-masthead .pf-v5-c-toolbar { background: transparent; color: inherit; }
-.pf-v5-c-page__header-brand-link img, .pf-v5-c-masthead__brand img { width: 132px; max-height: 38px; object-fit: contain; }
-.pf-v5-c-page__header .pf-v5-c-button, .pf-v5-c-page__header .pf-v5-c-menu-toggle,
-.pf-v5-c-masthead .pf-v5-c-button, .pf-v5-c-masthead .pf-v5-c-menu-toggle,
-.pf-v5-c-page__header .pf-v5-c-dropdown__toggle { color: #363b40; }
-.pf-v5-c-page__sidebar { background: #f7f8f8; border-right: 1px solid #e4e7e9; }
-.pf-v5-c-page__sidebar-body { padding: 28px 16px; }
-.pf-v5-c-nav { --pf-v5-c-nav__link--Color: #555d64; --pf-v5-c-nav__link--hover--Color: #25292d; --pf-v5-c-nav__link--m-current--Color: #a31520; }
-.pf-v5-c-nav__link { padding: 13px 16px; border-radius: 6px; font-size: 14px; font-weight: 500; }
-.pf-v5-c-nav__link:hover { background: #ecefef; }
-.pf-v5-c-nav__link.pf-m-current { color: #a31520; background: #fbeaec; font-weight: 600; }
-.pf-v5-c-nav__link::before, .pf-v5-c-nav__link::after, .pf-v5-c-nav__item::before { border: 0; }
-.pf-v5-c-nav__subnav { padding: 4px 0 8px 12px; }
-.pf-v5-c-nav__section-title { color: #626a70; }
-.pf-v5-c-page__main { background: #fff; min-width: 0; padding: 40px 48px 64px; }
-.pf-v5-c-page__main-section { padding: 0; background: transparent; min-width: 0; }
-.pf-v5-c-page__main-section + .pf-v5-c-page__main-section { margin-top: 32px; }
-.pf-v5-c-page__main .pf-v5-c-title.pf-m-2xl { font-size: 28px; line-height: 1.3; font-weight: 650; letter-spacing: 0; }
-.pf-v5-c-page__main .pf-v5-c-content p { color: #687178; line-height: 1.7; }
-.pf-v5-c-page__main .pf-v5-c-form { max-width: 880px; margin-top: 12px; }
-.pf-v5-c-form__group { min-width: 0; }
-.pf-v5-c-form__label { font-size: 14px; font-weight: 550; color: #363b40; }
-.pf-v5-c-form-control { border-radius: 6px; background: #fff; min-height: 42px; }
-.pf-v5-c-form-control::before, .pf-v5-c-form-control::after { border-radius: 6px; }
-.pf-v5-c-form-control input { min-height: 42px; font-family: inherit; }
-.pf-v5-c-form-control.pf-m-disabled { background: #f0f2f2; }
-.pf-v5-c-menu-toggle { min-height: 40px; border-radius: 6px; }
-.pf-v5-c-form__actions { padding-top: 24px; margin-top: 12px; border-top: 1px solid #e4e7e9; }
-.pf-v5-c-button { border-radius: 6px; font-family: inherit; }
-.pf-v5-c-button.pf-m-primary { background: #b71923; min-height: 40px; padding-inline: 24px; }
-.pf-v5-c-button.pf-m-primary:hover { background: #95131b; }
-.pf-v5-c-button.pf-m-primary:disabled { background: #e2e5e7; color: #687178; }
-.pf-v5-c-button.pf-m-secondary { color: #a31520; }
-.pf-v5-c-alert { border-radius: 6px; }
-.pf-v5-c-card { border: 1px solid #e4e7e9; border-radius: 8px; box-shadow: none; }
-.pf-v5-c-data-list { border-top-color: #e4e7e9; }
-.pf-v5-c-data-list__item { background: #fff; }
-.pf-v5-c-table { font-size: 14px; }
-.pf-v5-c-jump-links { font-size: 13px; }
-.amigo-account-caption { margin: 0 16px 22px; color: #687178; font-size: 12px; font-weight: 600; }
-.amigo-account-settings { border-top: 1px solid #e4e7e9; margin-top: 24px; padding-top: 16px; }
-.amigo-settings-button { width: 100%; border: 0; background: transparent; text-align: start; padding: 13px 16px; border-radius: 6px; color: #555d64; font: 500 14px "Inter", "Segoe UI", sans-serif; cursor: pointer; }
-.amigo-settings-button:hover { background: #ecefef; }
-.amigo-settings-dialog { width: min(480px, calc(100% - 32px)); max-height: calc(100dvh - 48px); padding: 28px; border: 1px solid #e4e7e9; border-radius: 8px; color: #25292d; box-shadow: 0 20px 80px #15191d26; }
-.amigo-settings-dialog::backdrop { background: #171b2159; }
-.amigo-settings-heading { display: flex; justify-content: space-between; align-items: center; gap: 20px; margin-bottom: 28px; }
-.amigo-settings-heading h2 { font-size: 22px; margin: 0; }
-.amigo-settings-close { width: 36px; height: 36px; border: 1px solid #e4e7e9; background: #fff; color: #363b40; border-radius: 6px; font-size: 22px; cursor: pointer; }
-.amigo-settings-dialog label { display: block; font-size: 14px; font-weight: 600; margin-bottom: 10px; }
-.amigo-settings-dialog select { width: 100%; min-height: 44px; padding: 8px 12px; border: 1px solid #aeb5bb; border-radius: 6px; font: inherit; background: #fff; color: inherit; }
-.amigo-settings-description { font-size: 13px; line-height: 1.7; color: #687178; margin: 12px 0 24px; }
-.amigo-settings-status { font-size: 13px; color: #a31520; margin-top: 14px; }
-.amigo-settings-dialog button:focus-visible, .amigo-settings-button:focus-visible, .amigo-settings-dialog select:focus-visible { outline: 2px solid #b71923; outline-offset: 3px; }
+
+.pf-v5-c-page__main h2.pf-v5-c-title,
+.pf-v5-c-page__main .pf-v5-c-title.pf-m-lg {
+    color: #25292d;
+    font-size: 16px;
+    font-weight: 650;
+}
+
+/* Horizontal profile form + jump links */
+.pf-v5-c-page__main .pf-v5-c-form {
+    max-width: 920px;
+    margin-top: 8px;
+}
+
+.pf-v5-c-form__group {
+    min-width: 0;
+    padding-block: 6px;
+}
+
+.pf-v5-c-form__label,
+.pf-v5-c-form__label-text {
+    color: #363b40;
+    font-size: 14px;
+    font-weight: 550;
+}
+
+.pf-v5-c-form__label-required {
+    color: #b71923;
+    margin-inline-start: 3px;
+}
+
+.pf-v5-c-form-control {
+    --pf-v5-c-form-control--BorderRadius: 6px;
+    background: #fff;
+    min-height: 42px;
+}
+
+.pf-v5-c-form-control::before,
+.pf-v5-c-form-control::after {
+    border-radius: 6px;
+}
+
+.pf-v5-c-form-control input,
+.pf-v5-c-form-control textarea,
+.pf-v5-c-form-control select {
+    min-height: 42px;
+    font-family: inherit;
+}
+
+.pf-v5-c-form-control.pf-m-disabled,
+.pf-v5-c-form-control:disabled {
+    background: #f0f2f2;
+}
+
+.pf-v5-c-form .pf-v5-c-menu-toggle {
+    min-height: 42px;
+    border-radius: 6px;
+    background: #fff;
+}
+
+.pf-v5-c-form__actions {
+    padding-top: 24px;
+    margin-top: 8px;
+    border-top: 1px solid #e4e7e9;
+}
+
+.pf-v5-c-jump-links {
+    font-size: 13px;
+}
+
+.pf-v5-c-jump-links__label {
+    color: #687178;
+    font-size: 12px;
+    font-weight: 600;
+    margin-bottom: 10px;
+}
+
+.pf-v5-c-jump-links__link {
+    color: #555d64;
+    padding-block: 6px;
+}
+
+.pf-v5-c-jump-links__item.pf-m-current .pf-v5-c-jump-links__link,
+.pf-v5-c-jump-links__link.pf-m-current {
+    color: #a31520;
+    font-weight: 600;
+}
+
+.pf-v5-c-jump-links__list {
+    border-inline-start: 2px solid #e4e7e9;
+    padding-inline-start: 12px;
+}
+
+.pf-v5-c-jump-links__item.pf-m-current {
+    position: relative;
+}
+
+.pf-v5-c-jump-links__item.pf-m-current::before {
+    position: absolute;
+    inset-block: 0;
+    inset-inline-start: -14px;
+    width: 2px;
+    background: #b71923;
+    content: "";
+}
+
+/* Buttons, alerts, lists, cards */
+.pf-v5-c-button {
+    border-radius: 6px;
+    font-family: inherit;
+}
+
+.pf-v5-c-button.pf-m-primary {
+    background: #b71923;
+    min-height: 40px;
+    padding-inline: 22px;
+    color: #fff;
+}
+
+.pf-v5-c-button.pf-m-primary:hover {
+    background: #95131b;
+}
+
+.pf-v5-c-button.pf-m-primary:disabled {
+    background: #e2e5e7;
+    color: #687178;
+}
+
+.pf-v5-c-button.pf-m-secondary {
+    color: #a31520;
+    border-color: #e4b4b8;
+}
+
+.pf-v5-c-button.pf-m-link,
+.pf-v5-c-button.pf-m-plain.pf-m-danger,
+.pf-v5-c-button.pf-m-link.pf-m-danger {
+    color: #a31520;
+}
+
+.pf-v5-c-button.pf-m-link:hover {
+    color: #82111a;
+}
+
+.pf-v5-c-alert {
+    border-radius: 6px;
+}
+
+.pf-v5-c-card {
+    border: 1px solid #e4e7e9;
+    border-radius: 8px;
+    box-shadow: none;
+}
+
+.pf-v5-c-data-list {
+    border-top-color: #e4e7e9;
+}
+
+.pf-v5-c-data-list__item {
+    background: #fff;
+}
+
+.pf-v5-c-table {
+    font-size: 14px;
+}
+
+.pf-v5-c-empty-state {
+    padding-block: 32px;
+}
+
+.pf-v5-c-modal-box,
+.pf-v5-c-drawer__panel {
+    border-radius: 8px;
+}
+
+.pf-v5-c-label.pf-m-blue,
+.pf-v5-c-label.pf-m-red {
+    border-radius: 4px;
+}
+
+.pf-v5-c-expandable-section__toggle {
+    color: #a31520;
+}
+
+/* Settings dialog */
+.amigo-settings-dialog {
+    width: min(480px, calc(100% - 32px));
+    max-height: calc(100dvh - 48px);
+    padding: 28px;
+    border: 1px solid #e4e7e9;
+    border-radius: 8px;
+    color: #25292d;
+    box-shadow: 0 20px 80px #15191d26;
+}
+
+.amigo-settings-dialog::backdrop {
+    background: #171b2159;
+}
+
+.amigo-settings-heading {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 20px;
+    margin-bottom: 28px;
+}
+
+.amigo-settings-heading h2 {
+    font-size: 22px;
+    margin: 0;
+}
+
+.amigo-settings-close {
+    width: 36px;
+    height: 36px;
+    border: 1px solid #e4e7e9;
+    background: #fff;
+    color: #363b40;
+    border-radius: 6px;
+    font-size: 22px;
+    cursor: pointer;
+}
+
+.amigo-settings-dialog label {
+    display: block;
+    font-size: 14px;
+    font-weight: 600;
+    margin-bottom: 10px;
+}
+
+.amigo-settings-dialog select {
+    width: 100%;
+    min-height: 44px;
+    padding: 8px 12px;
+    border: 1px solid #aeb5bb;
+    border-radius: 6px;
+    font: inherit;
+    background: #fff;
+    color: inherit;
+}
+
+.amigo-settings-description {
+    font-size: 13px;
+    line-height: 1.7;
+    color: #687178;
+    margin: 12px 0 24px;
+}
+
+.amigo-settings-status {
+    font-size: 13px;
+    color: #a31520;
+    margin-top: 14px;
+}
+
+.amigo-settings-dialog button:focus-visible,
+.amigo-settings-button:focus-visible,
+.amigo-settings-dialog select:focus-visible {
+    outline: 2px solid #b71923;
+    outline-offset: 3px;
+}
+
 @media (min-width: 1100px) {
-    .pf-v5-c-form.pf-m-horizontal { --pf-v5-c-form--m-horizontal__group-label--md--GridColumnWidth: 180px; }
-    .pf-v5-c-page__main { padding-inline: 52px; }
+    .pf-v5-c-form.pf-m-horizontal {
+        --pf-v5-c-form--m-horizontal__group-label--md--GridColumnWidth: 180px;
+    }
+
+    .pf-v5-c-page__main {
+        padding-inline: 52px;
+    }
 }
+
 @media (max-width: 767px) {
-    .pf-v5-c-page__main { padding: 28px 20px 40px; }
-    .pf-v5-c-page__header, .pf-v5-c-masthead { padding-inline: 16px; min-height: 64px; }
-    .pf-v5-c-page__main .pf-v5-c-title.pf-m-2xl { font-size: 24px; }
-    .pf-v5-c-page__header-brand-link img, .pf-v5-c-masthead__brand img { width: 108px; }
-    .pf-v5-c-form__actions .pf-v5-c-action-list { flex-wrap: wrap; }
+    .pf-v5-c-page__main {
+        padding: 28px 20px 40px;
+    }
+
+    .pf-v5-c-page__header,
+    .pf-v5-c-masthead {
+        padding-inline: 16px;
+        min-height: 64px;
+    }
+
+    .pf-v5-c-page__main .pf-v5-c-title.pf-m-2xl,
+    .pf-v5-c-page__main .pf-v5-c-title.pf-m-xl {
+        font-size: 24px;
+    }
+
+    .pf-v5-c-page__header-brand-link img,
+    .pf-v5-c-masthead__brand img,
+    .pf-v5-c-brand img {
+        height: 30px;
+        max-width: 132px;
+    }
+
+    .pf-v5-c-form__actions .pf-v5-c-action-list {
+        flex-wrap: wrap;
+    }
 }

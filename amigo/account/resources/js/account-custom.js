@@ -1,9 +1,19 @@
 /* React owns authentication, profile forms and session actions. */
 (() => {
+    document.documentElement.classList.add("amigo-account");
     const start = async () => {
+        document.body.dataset.pageId = "account";
         const element = document.getElementById("environment");
         if (!element) return;
         const environment = JSON.parse(element.textContent);
+        if (!document.querySelector('link[data-amigo-favicon]')) {
+            const icon = document.createElement("link");
+            icon.rel = "icon";
+            icon.type = "image/png";
+            icon.dataset.amigoFavicon = "true";
+            icon.href = `${environment.resourceUrl.replace(/\/$/, "")}/img/amigo-mark.png`;
+            document.head.append(icon);
+        }
         const storageKey = `amigo.account.locale.${environment.realm}`;
         const supported = ["vi", "en"];
         let language = supported.includes(environment.locale) ? environment.locale : "en";

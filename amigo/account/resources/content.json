@@ -1,9 +1,14 @@
 [
   { "label": "personalInfo", "path": "" },
-  { "label": "signingIn", "path": "account-security/signing-in" },
-  { "label": "deviceActivity", "path": "account-security/device-activity" },
+  {
+    "label": "accountSecurity",
+    "children": [
+      { "label": "signingIn", "path": "account-security/signing-in" },
+      { "label": "deviceActivity", "path": "account-security/device-activity" },
+      { "label": "linkedAccounts", "path": "account-security/linked-accounts", "isVisible": "isLinkedAccountsEnabled" }
+    ]
+  },
   { "label": "applications", "path": "applications" },
-  { "label": "linkedAccounts", "path": "account-security/linked-accounts", "isVisible": "isLinkedAccountsEnabled" },
   { "label": "groups", "path": "groups", "isVisible": "isViewGroupsEnabled" },
   { "label": "organizations", "path": "organizations", "isVisible": "isViewOrganizationsEnabled" },
   { "label": "resources", "path": "resources", "isVisible": "isMyResourcesEnabled" },
