@@ -90,7 +90,19 @@ For an existing Realm:
 6. On each downstream client that needs application roles, add a multivalued `User Attribute` mapper from `external_roles` to the access-token claim `external_roles`. The sample Realm already configures this for `vietinbank-client`.
 7. Select login theme `amigo`, enable Internationalization, add supported locales `vi` and `en`, then choose the default locale.
 
-The login page uses Keycloak message bundles and includes a locale selector. OIDC clients may preselect the language with `ui_locales=vi` or `ui_locales=en`; browser-flow errors from the custom authenticator are rendered in that same locale. The account theme is packaged separately and can be selected as `amigo`, but this change only localizes the login experience; account-page message coverage should be completed as a separate step.
+The login page uses Keycloak message bundles and includes a locale selector. OIDC clients may preselect the language with `ui_locales=vi` or `ui_locales=en`; browser-flow errors from the custom authenticator are rendered in that same locale.
+
+### Personal account console
+
+Select **Realm settings > Themes > Account theme > amigo** for an existing realm. In **Localization**, enable Internationalization and the `vi` and `en` supported locales. Open `http://localhost:8085/realms/vietinbank-demo/account/` locally.
+
+The account theme presents profile details, security, devices/sessions and connected applications in a light Amigo workspace. Native Keycloak forms, validation, confirmation dialogs and logout remain responsible for account operations. Which actions are available depends on realm policy and the user provider; the theme does not add a backend profile/password update API.
+
+**Settings > Display language** switches Vietnamese/English without navigating away from an unsaved form. This preference is stored in this browser, scoped to the realm, not saved to the identity backend. The native profile language field remains available for a persistent account preference if the provider supports updates. Saving that field also synchronizes the theme language. Browser settings do not change the login-page language.
+
+Translations live in `amigo/account/messages/messages_vi.properties` and `messages_en.properties`. Vietnamese covers the account-v3 message keys shipped in RHBK 26.6.6; English inherits built-in messages and overrides Amigo navigation labels. No DOM text replacement or duplicated logout controls are used. Custom settings listen to the account console's `languageChanged` event, which must be rechecked when upgrading RHBK.
+
+The account CSS targets exact PatternFly v5 classes; avoid selectors such as `[class*="c-form"]` that also match every child of a form. The supplemental script only adds the settings control and does not read tokens or inject user profile data as HTML. Check profile, security, sessions, applications, VI/EN switching and mobile layout after a Keycloak upgrade.
 
 Theme files and provider bundles are baked into the image. After changing either one, rebuild and recreate the local Keycloak container with `docker compose -f docker-compose.yaml up -d --build --force-recreate keycloak`. The login stylesheet has a versioned URL so browsers fetch the updated CSS after deployment.
 
