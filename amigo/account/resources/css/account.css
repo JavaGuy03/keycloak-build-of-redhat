@@ -137,8 +137,35 @@ body,
 }
 
 .pf-v5-c-nav__link {
+    display: flex;
+    align-items: center;
+    gap: 10px;
     border-radius: 6px;
     font-size: 14px;
+}
+
+.pf-v5-c-nav__toggle {
+    margin-inline-start: auto;
+}
+
+.amigo-icon {
+    display: inline-flex;
+    width: 18px;
+    height: 18px;
+    flex: 0 0 18px;
+    align-items: center;
+    justify-content: center;
+    color: #3d444a;
+}
+
+.amigo-icon svg {
+    display: block;
+    width: 18px;
+    height: 18px;
+}
+
+.pf-v5-c-nav__link.pf-m-current > .amigo-icon {
+    color: #a31520;
 }
 
 .pf-v5-c-nav__link.pf-m-current {
@@ -179,7 +206,10 @@ body,
 }
 
 .amigo-settings-button {
+    display: flex;
     width: 100%;
+    align-items: center;
+    gap: 10px;
     border: 0;
     background: transparent;
     text-align: start;
@@ -287,9 +317,46 @@ body,
 }
 
 .pf-v5-c-form__actions {
-    padding-top: 24px;
-    margin-top: 8px;
+    padding-top: 28px;
+    margin-top: 12px;
     border-top: 1px solid #e4e7e9;
+}
+
+.pf-v5-c-form__actions .pf-v5-l-flex,
+.pf-v5-c-form__actions .pf-v5-c-action-list {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 0;
+}
+
+.pf-v5-c-form__actions .pf-v5-l-flex__item,
+.pf-v5-c-form__actions .pf-v5-c-action-list__item,
+.pf-v5-c-form__actions .pf-v5-c-action-list__group {
+    margin: 0;
+}
+
+.pf-v5-c-form__actions .pf-v5-l-flex__item:first-child,
+.pf-v5-c-form__actions .pf-v5-c-action-list__item:first-child,
+.pf-v5-c-form__actions .pf-v5-l-flex > .pf-v5-c-button.pf-m-primary {
+    padding-inline-end: 28px;
+    margin-inline-end: 28px;
+    border-inline-end: 1px solid #e4e7e9;
+}
+
+.pf-v5-c-form__actions .pf-v5-c-button.pf-m-primary {
+    min-width: 148px;
+}
+
+.pf-v5-c-form__actions .pf-v5-c-button.pf-m-link,
+.pf-v5-c-form__actions .pf-v5-c-button.pf-m-secondary {
+    min-height: 40px;
+    padding-inline: 8px;
+    background: transparent;
+    border: 0;
+    box-shadow: none;
+    color: #a31520;
+    font-weight: 600;
 }
 
 .pf-v5-c-jump-links {
