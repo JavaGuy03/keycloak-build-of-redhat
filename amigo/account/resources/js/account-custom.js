@@ -34,6 +34,7 @@
         function localize() {
             document.documentElement.lang = language;
             document.title = text("accountTitle");
+            decorateProfileMenu();
             document.querySelectorAll("[data-amigo-message]").forEach((node) => { node.textContent = text(node.dataset.amigoMessage); });
             if (dialog) {
                 dialog.querySelector("select").value = language;
@@ -88,6 +89,19 @@
                 link.insertBefore(mark(iconKind(link)), link.firstChild);
             });
         }
+        function decorateProfileMenu() {
+            document.querySelectorAll('[data-testid="options-toggle"], [data-testid="options-kebab-toggle"]').forEach((button) => {
+                if (!button.querySelector(":scope > .amigo-profile-icon")) {
+                    const icon = mark("profile");
+                    icon.classList.add("amigo-profile-icon");
+                    button.prepend(icon);
+                }
+                if (button.dataset.testid === "options-kebab-toggle") {
+                    button.setAttribute("aria-label", text("accountTitle"));
+                    button.title = text("accountTitle");
+                }
+            });
+        }
         function createDialog() {
             dialog = document.createElement("dialog");
             dialog.className = "amigo-settings-dialog";
@@ -136,6 +150,11 @@
             document.body.append(dialog);
         }
         function enhance() {
+            const rail = document.querySelector(".pf-v5-c-page__sidebar");
+            if (rail) {
+                const collapsed = rail.classList.contains("pf-m-collapsed");
+                if (rail.inert !== collapsed) rail.inert = collapsed;
+            }
             const sidebar = document.querySelector(".pf-v5-c-page__sidebar-body");
             if (sidebar && !sidebar.querySelector(".amigo-account-caption")) {
                 sidebar.prepend(label("p", "accountTitle", "amigo-account-caption"));
@@ -157,6 +176,7 @@
                 }
             }
             decorateNav();
+            decorateProfileMenu();
         }
         try {
             let preference;
@@ -173,7 +193,7 @@
                 requestAnimationFrame(() => { scheduled = false; enhance(); });
             });
             const app = document.getElementById("app");
-            if (app) observer.observe(app, { childList: true, subtree: true });
+            if (app) observer.observe(app, { childList: true, subtree: true, attributes: true, attributeFilter: ["class"] });
             window.addEventListener("languageChanged", async (event) => {
                 const next = event.detail?.language;
                 if (changing || !supported.includes(next)) return;
