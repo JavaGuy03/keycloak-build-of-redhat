@@ -524,6 +524,267 @@ body {
 }
 
 /* ==========================================================================
+   OAUTH CONSENT
+   ========================================================================== */
+.amigo-consent-wrap {
+    max-width: 620px;
+}
+
+.amigo-consent-wrap .amigo-form-card {
+    position: relative;
+    overflow: hidden;
+    padding: clamp(34px, 3vw, 44px);
+    border-color: #dbe2ea;
+    border-radius: 22px;
+    box-shadow:
+        0 1px 2px rgba(15, 23, 42, 0.03),
+        0 12px 28px rgba(15, 23, 42, 0.07),
+        0 32px 64px -28px rgba(15, 23, 42, 0.2);
+}
+
+.amigo-consent-wrap .amigo-form-card::before {
+    position: absolute;
+    inset: 0 0 auto;
+    height: 5px;
+    background: linear-gradient(90deg, var(--red) 0%, #dc3545 54%, #f0a3a9 100%);
+    content: "";
+}
+
+.amigo-consent-head {
+    margin-bottom: 30px;
+}
+
+.amigo-client-logo {
+    display: block;
+    width: auto;
+    max-width: 160px;
+    height: auto;
+    max-height: 56px;
+    margin: 0 0 18px;
+    object-fit: contain;
+    object-position: left center;
+}
+
+.amigo-consent-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 16px;
+    padding: 6px 10px 6px 7px;
+    border: 1px solid #fee2e2;
+    border-radius: 999px;
+    background: #fff7f7;
+    color: var(--red);
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.07em;
+    text-transform: uppercase;
+}
+
+.amigo-consent-badge-icon {
+    display: inline-flex;
+    width: 24px;
+    height: 24px;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    background: var(--red);
+    color: #ffffff;
+}
+
+.amigo-consent-badge-icon svg {
+    width: 15px;
+    height: 15px;
+}
+
+.amigo-consent-title {
+    margin-bottom: 10px;
+    font-size: clamp(28px, 2.4vw, 34px);
+}
+
+.amigo-client-context {
+    margin: 0;
+    color: #334155;
+    font-size: 15px;
+    line-height: 1.6;
+}
+
+.amigo-client-context strong {
+    color: #0f172a;
+    font-weight: 700;
+}
+
+.amigo-consent-subtitle {
+    margin-top: 7px;
+    line-height: 1.6;
+}
+
+.amigo-consent-section-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    margin-bottom: 12px;
+}
+
+.amigo-consent-request {
+    margin: 0;
+    color: #0f172a;
+    font-size: 15px;
+    font-weight: 700;
+    line-height: 1.5;
+}
+
+.amigo-scope-count {
+    flex: 0 0 auto;
+    padding: 4px 9px;
+    border-radius: 999px;
+    background: #f1f5f9;
+    color: #64748b;
+    font-size: 11px;
+    font-weight: 600;
+}
+
+.amigo-scope-list {
+    display: grid;
+    gap: 10px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.amigo-scope-item {
+    display: flex;
+    align-items: center;
+    gap: 13px;
+    min-height: 54px;
+    padding: 13px 15px;
+    border: 1px solid #e3e8ef;
+    border-radius: 12px;
+    background: #fbfcfe;
+    color: #334155;
+    font-size: 13px;
+    font-weight: 500;
+    line-height: 1.45;
+    box-shadow: 0 1px 2px rgba(15, 23, 42, 0.025);
+}
+
+.amigo-scope-icon {
+    display: inline-flex;
+    width: 28px;
+    height: 28px;
+    flex: 0 0 28px;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    background: #ecfdf5;
+    color: #059669;
+}
+
+.amigo-scope-icon svg {
+    width: 15px;
+    height: 15px;
+}
+
+.amigo-consent-legal {
+    margin-top: 16px;
+    padding: 12px 14px;
+    border-left: 3px solid #cbd5e1;
+    background: #f8fafc;
+    color: #64748b;
+    font-size: 12px;
+    line-height: 1.55;
+}
+
+.amigo-consent-legal p {
+    margin: 0;
+}
+
+.amigo-consent-legal-links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px 16px;
+    margin-top: 6px;
+}
+
+.amigo-consent-legal a {
+    color: var(--red);
+    font-weight: 600;
+    text-underline-offset: 2px;
+}
+
+.amigo-consent-form {
+    display: grid;
+    grid-template-columns: minmax(120px, 0.8fr) minmax(180px, 1.2fr);
+    gap: 10px;
+    margin-top: 28px;
+}
+
+.amigo-consent-form .amigo-submit {
+    grid-row: 1;
+    grid-column: 2;
+    border-radius: 10px;
+}
+
+.amigo-consent-form .amigo-cancel {
+    grid-row: 1;
+    grid-column: 1;
+}
+
+.amigo-cancel {
+    width: 100%;
+    min-height: 46px;
+    padding: 11px 18px;
+    border: 1px solid #cbd5e1;
+    border-radius: 10px;
+    background: #ffffff;
+    color: #475569;
+    cursor: pointer;
+    font: inherit;
+    font-size: 14px;
+    font-weight: 700;
+    transition: border-color 0.15s ease, background-color 0.15s ease, color 0.15s ease;
+}
+
+.amigo-cancel:hover {
+    border-color: #94a3b8;
+    background: #f8fafc;
+    color: #0f172a;
+}
+
+.amigo-cancel:focus-visible {
+    outline: 3px solid rgba(100, 116, 139, 0.25);
+    outline-offset: 2px;
+}
+
+.amigo-consent-wrap .amigo-trust-banner {
+    margin-top: 26px;
+    padding: 14px 15px;
+    border: 1px solid #d1fae5;
+    border-radius: 12px;
+    background: #f0fdf8;
+    color: #526271;
+}
+
+.amigo-consent-wrap .amigo-trust-icon {
+    width: 18px;
+    height: 18px;
+    flex-basis: 18px;
+    margin-top: 1px;
+}
+
+.amigo-consent-wrap .amigo-trust-text strong,
+.amigo-consent-wrap .amigo-trust-text span {
+    display: block;
+}
+
+.amigo-consent-wrap .amigo-trust-text strong {
+    margin: 0 0 3px;
+    color: #166534;
+    font-size: 12px;
+}
+
+/* ==========================================================================
    SUPPORT & FOOTER
    ========================================================================== */
 .amigo-support-bar {
@@ -641,6 +902,14 @@ body {
         padding: 28px 22px;
         box-shadow: 0 4px 16px rgba(0, 0, 0, 0.04);
     }
+
+    .amigo-consent-wrap {
+        max-width: 620px;
+    }
+
+    .amigo-consent-wrap .amigo-form-card {
+        padding: 32px 28px;
+    }
 }
 
 @media (max-width: 480px) {
@@ -663,6 +932,40 @@ body {
 
     .amigo-form-card {
         padding: 24px 18px;
+    }
+
+    .amigo-consent-wrap .amigo-form-card {
+        padding: 28px 20px 22px;
+        border-radius: 16px;
+    }
+
+    .amigo-consent-head {
+        margin-bottom: 24px;
+    }
+
+    .amigo-consent-title {
+        font-size: 27px;
+    }
+
+    .amigo-consent-section-head {
+        align-items: flex-start;
+    }
+
+    .amigo-consent-form {
+        grid-template-columns: 1fr;
+    }
+
+    .amigo-consent-form .amigo-submit,
+    .amigo-consent-form .amigo-cancel {
+        grid-column: 1;
+    }
+
+    .amigo-consent-form .amigo-submit {
+        grid-row: 1;
+    }
+
+    .amigo-consent-form .amigo-cancel {
+        grid-row: 2;
     }
 
     .amigo-footer-links {

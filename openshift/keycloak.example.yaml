@@ -3,8 +3,12 @@ kind: Keycloak
 metadata:
   name: amigo-keycloak
   namespace: ssc3
+  labels:
+    app.kubernetes.io/name: amigo-keycloak
+    app.kubernetes.io/part-of: amigo-identity
 spec:
   instances: 2
+  # Always use an immutable release tag (or a digest) in production.
   image: quay.ocp.lab.local/dinhhb/keycloak-custom:1.0.0
   startOptimized: true
   update:
@@ -13,6 +17,7 @@ spec:
   db:
     vendor: postgres
     host: postgresql.ssc3.svc
+    port: 5432
     database: keycloak
     usernameSecret:
       name: keycloak-db
@@ -27,9 +32,21 @@ spec:
   http:
     tlsSecret: keycloak-tls
 
+  # RHBK Operator creates an OpenShift passthrough Route for this Ingress.
+  ingress:
+    enabled: true
+    className: openshift-default
+
   additionalOptions:
-    - name: metrics-enabled
-      value: "true"
+    - name: log-console-output
+      value: json
+    - name: db-tls-mode
+      value: verify-server
+
+  truststores:
+    database:
+      configMap:
+        name: keycloak-db-ca
 
   resources:
     requests:
@@ -48,3 +65,19 @@ spec:
   livenessProbe:
     periodSeconds: 10
     failureThreshold: 3
+
+  # Only the OpenShift router (and workloads in this namespace) may reach
+  # Keycloak HTTPS. User-workload monitoring may scrape the management port.
+  networkPolicy:
+    enabled: true
+    https:
+      - namespaceSelector:
+          matchLabels:
+            kubernetes.io/metadata.name: openshift-ingress
+      - namespaceSelector:
+          matchLabels:
+            kubernetes.io/metadata.name: ssc3
+    management:
+      - namespaceSelector:
+          matchLabels:
+            kubernetes.io/metadata.name: openshift-user-workload-monitoring

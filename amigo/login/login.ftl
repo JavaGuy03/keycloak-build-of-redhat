@@ -6,8 +6,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>${msg("amigo.loginTitle")} | ${(realm.displayNameHtml!realm.displayName)!"Amigo"}</title>
     <link rel="icon" href="${amigoCommon}/img/amigo-mark.png" type="image/png">
-    <link rel="stylesheet" href="${amigoCommon}/css/brand.css?v=20260915-11">
-    <link rel="stylesheet" href="${url.resourcesPath}/css/styles.css?v=20260915-11">
+    <link rel="stylesheet" href="${amigoCommon}/css/brand.css?v=20260925-01">
+    <link rel="stylesheet" href="${url.resourcesPath}/css/styles.css?v=20260925-01">
 </head>
 <body>
     <div class="amigo-shell">

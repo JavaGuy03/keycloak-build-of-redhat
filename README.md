@@ -90,7 +90,7 @@ For an existing Realm:
 6. On each downstream client that needs application roles, add a multivalued `User Attribute` mapper from `external_roles` to the access-token claim `external_roles`. The sample Realm already configures this for `vietinbank-client`.
 7. Select login theme `amigo`, enable Internationalization, add supported locales `vi` and `en`, then choose the default locale.
 
-The login page uses Keycloak message bundles and includes a locale selector. OIDC clients may preselect the language with `ui_locales=vi` or `ui_locales=en`; browser-flow errors from the custom authenticator are rendered in that same locale.
+The login and OAuth consent pages use Keycloak message bundles and include a locale selector. The consent page displays the requesting client, every scope supplied by Keycloak, optional terms/privacy links, and native approve/deny actions in the Amigo visual language. OIDC clients may preselect the language with `ui_locales=vi` or `ui_locales=en`; browser-flow errors from the custom authenticator are rendered in that same locale.
 
 ### Personal account console
 
