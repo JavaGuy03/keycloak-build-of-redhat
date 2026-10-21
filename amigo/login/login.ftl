@@ -61,6 +61,87 @@
                     </#if>
 
                     <form id="kc-form-login" onsubmit="login.disabled = true; return true;" action="${url.loginAction}" method="post">
+                        <#assign currentRealmName = (realm.name)!''>
+                        <#if currentRealmName == "momo-demo">
+                            <#assign defaultDest = "momo">
+                        <#elseif currentRealmName == "vnpay-demo">
+                            <#assign defaultDest = "vnpay">
+                        <#else>
+                            <#assign defaultDest = "ipay">
+                        </#if>
+
+                        <#-- Khi login lỗi, Keycloak trả về username dạng "user@momo" -> phát hiện destination từ đó -->
+                        <#assign savedUsername = (login.username!'')>
+                        <#if savedUsername?contains("@") && !savedUsername?contains(".")>
+                            <#assign detectedDest = savedUsername?keep_after_last("@")?lower_case>
+                            <#if detectedDest == "momo" || detectedDest == "vnpay" || detectedDest == "ipay">
+                                <#assign defaultDest = detectedDest>
+                            </#if>
+                        </#if>
+
+                        <div class="amigo-dest">
+                            <label class="amigo-dest-legend" id="destination-label">${msg("amigo.destinationLabel")!"Đích đến xác thực"}</label>
+                            <input type="hidden" id="destination" name="destination" value="${defaultDest}">
+                            
+                            <div class="amigo-dropdown" id="destination-dropdown">
+                                <button type="button" class="amigo-dropdown-trigger" id="destination-trigger" aria-haspopup="listbox" aria-expanded="false" aria-labelledby="destination-label destination-trigger">
+                                    <div class="amigo-dropdown-selected" id="dropdown-selected-content">
+                                        <#if defaultDest == "momo">
+                                            <img class="amigo-dest-logo" src="${url.resourcesPath}/img/momo-logo.png" alt="MoMo" aria-hidden="true">
+                                            <span class="amigo-dest-copy">
+                                                <span class="amigo-dest-name">${msg("amigo.destinationMomoName")!"Ví MoMo"}</span>
+                                                <span class="amigo-dest-meta">${msg("amigo.destinationMomoMeta")!"Ví điện tử · Thanh toán di động"}</span>
+                                            </span>
+                                        <#elseif defaultDest == "vnpay">
+                                            <img class="amigo-dest-logo" src="${url.resourcesPath}/img/vnpay-logo.png" alt="VNPAY" aria-hidden="true">
+                                            <span class="amigo-dest-copy">
+                                                <span class="amigo-dest-name">${msg("amigo.destinationVnpayName")!"VNPAY"}</span>
+                                                <span class="amigo-dest-meta">${msg("amigo.destinationVnpayMeta")!"Cổng thanh toán · Thẻ & QR"}</span>
+                                            </span>
+                                        <#else>
+                                            <img class="amigo-dest-logo" src="${url.resourcesPath}/img/vietinbank-logo.png" alt="iPay VietinBank" aria-hidden="true">
+                                            <span class="amigo-dest-copy">
+                                                <span class="amigo-dest-name">${msg("amigo.destinationIpayName")!"iPay Core Bank"}</span>
+                                                <span class="amigo-dest-meta">${msg("amigo.destinationIpayMeta")!"VietinBank · Tài khoản ngân hàng"}</span>
+                                            </span>
+                                        </#if>
+                                    </div>
+                                    <span class="amigo-dropdown-arrow" aria-hidden="true">
+                                        <svg viewBox="0 0 20 20" fill="currentColor" width="18" height="18"><path fill-rule="evenodd" d="M5.23 7.21a.75.75 0 011.06.02L10 11.168l3.71-3.938a.75.75 0 111.08 1.04l-4.25 4.5a.75.75 0 01-1.08 0l-4.25-4.5a.75.75 0 01.02-1.06z" clip-rule="evenodd"/></svg>
+                                    </span>
+                                </button>
+
+                                <div class="amigo-dropdown-menu" id="destination-menu" role="listbox" aria-labelledby="destination-label">
+                                    <button type="button" class="amigo-dropdown-item<#if defaultDest == 'ipay'> is-selected</#if>" data-dest="ipay" role="option" aria-selected="<#if defaultDest == 'ipay'>true<#else>false</#if>" tabindex="-1">
+                                        <img class="amigo-dest-logo" src="${url.resourcesPath}/img/vietinbank-logo.png" alt="iPay VietinBank" aria-hidden="true">
+                                        <span class="amigo-dest-copy">
+                                            <span class="amigo-dest-name">${msg("amigo.destinationIpayName")!"iPay Core Bank"}</span>
+                                            <span class="amigo-dest-meta">${msg("amigo.destinationIpayMeta")!"VietinBank · Tài khoản ngân hàng"}</span>
+                                        </span>
+                                        <svg class="amigo-dest-check" viewBox="0 0 20 20" fill="currentColor" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/></svg>
+                                    </button>
+
+                                    <button type="button" class="amigo-dropdown-item<#if defaultDest == 'momo'> is-selected</#if>" data-dest="momo" role="option" aria-selected="<#if defaultDest == 'momo'>true<#else>false</#if>" tabindex="-1">
+                                        <img class="amigo-dest-logo" src="${url.resourcesPath}/img/momo-logo.png" alt="MoMo" aria-hidden="true">
+                                        <span class="amigo-dest-copy">
+                                            <span class="amigo-dest-name">${msg("amigo.destinationMomoName")!"Ví MoMo"}</span>
+                                            <span class="amigo-dest-meta">${msg("amigo.destinationMomoMeta")!"Ví điện tử · Thanh toán di động"}</span>
+                                        </span>
+                                        <svg class="amigo-dest-check" viewBox="0 0 20 20" fill="currentColor" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/></svg>
+                                    </button>
+
+                                    <button type="button" class="amigo-dropdown-item<#if defaultDest == 'vnpay'> is-selected</#if>" data-dest="vnpay" role="option" aria-selected="<#if defaultDest == 'vnpay'>true<#else>false</#if>" tabindex="-1">
+                                        <img class="amigo-dest-logo" src="${url.resourcesPath}/img/vnpay-logo.png" alt="VNPAY" aria-hidden="true">
+                                        <span class="amigo-dest-copy">
+                                            <span class="amigo-dest-name">${msg("amigo.destinationVnpayName")!"VNPAY"}</span>
+                                            <span class="amigo-dest-meta">${msg("amigo.destinationVnpayMeta")!"Cổng thanh toán · Thẻ & QR"}</span>
+                                        </span>
+                                        <svg class="amigo-dest-check" viewBox="0 0 20 20" fill="currentColor" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/></svg>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+
                         <div class="amigo-field">
                             <label for="username" class="amigo-label">
                                 <#if !realm.loginWithEmailAllowed>${msg("username")}
@@ -71,7 +152,11 @@
                                 <span class="amigo-input-icon" aria-hidden="true">
                                     <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" width="18" height="18"><path d="M16 17v-1.5a3.5 3.5 0 0 0-3.5-3.5h-5A3.5 3.5 0 0 0 4 15.5V17"/><circle cx="10" cy="7" r="3.5"/></svg>
                                 </span>
-                                <input tabindex="1" id="username" class="amigo-input has-icon" name="username" value="${(login.username!'')}"
+                                <#assign cleanInitialUsername = (login.username!'')>
+                                <#if cleanInitialUsername?contains("@") && !cleanInitialUsername?contains(".")>
+                                    <#assign cleanInitialUsername = cleanInitialUsername?keep_before("@")>
+                                </#if>
+                                <input tabindex="1" id="username" class="amigo-input has-icon" name="username" value="${cleanInitialUsername}"
                                        type="text" autofocus autocomplete="username"
                                        placeholder="${msg("amigo.usernamePlaceholder")}"
                                        aria-invalid="<#if messagesPerField.existsError('username','password')>true<#else>false</#if>"/>
@@ -160,6 +245,93 @@
 
     <script>
         (function() {
+            var form = document.getElementById('kc-form-login');
+            var destInput = document.getElementById('destination');
+            var usernameInput = document.getElementById('username');
+
+            // Dropdown controls
+            var dropdown = document.getElementById('destination-dropdown');
+            var trigger = document.getElementById('destination-trigger');
+            var menu = document.getElementById('destination-menu');
+            var selectedContent = document.getElementById('dropdown-selected-content');
+            var items = Array.prototype.slice.call(document.querySelectorAll('.amigo-dropdown-item'));
+
+            function toggleDropdown(open) {
+                if (!dropdown) return;
+                var isOpen = typeof open === 'boolean' ? open : !dropdown.classList.contains('is-open');
+                dropdown.classList.toggle('is-open', isOpen);
+                if (trigger) {
+                    trigger.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+                }
+            }
+
+            function selectDestination(item, closeMenu) {
+                if (!item) return;
+                items.forEach(function(el) {
+                    el.classList.remove('is-selected');
+                    el.setAttribute('aria-selected', 'false');
+                });
+                item.classList.add('is-selected');
+                item.setAttribute('aria-selected', 'true');
+
+                var dest = item.getAttribute('data-dest');
+                if (destInput) destInput.value = dest;
+
+                // Cập nhật hiển thị lên trigger box
+                var copyNode = item.querySelector('.amigo-dest-copy');
+                var logoNode = item.querySelector('.amigo-dest-logo');
+                if (selectedContent && copyNode && logoNode) {
+                    selectedContent.innerHTML = '';
+                    selectedContent.appendChild(logoNode.cloneNode(true));
+                    selectedContent.appendChild(copyNode.cloneNode(true));
+                }
+
+                if (closeMenu) {
+                    toggleDropdown(false);
+                    if (trigger) trigger.focus();
+                }
+            }
+
+            if (trigger) {
+                trigger.addEventListener('click', function(e) {
+                    e.stopPropagation();
+                    toggleDropdown();
+                });
+            }
+
+            items.forEach(function(item) {
+                item.addEventListener('click', function(e) {
+                    e.stopPropagation();
+                    selectDestination(item, true);
+                });
+            });
+
+            // Click outside to close
+            document.addEventListener('click', function(e) {
+                if (dropdown && !dropdown.contains(e.target)) {
+                    toggleDropdown(false);
+                }
+            });
+
+            // Escape key to close
+            document.addEventListener('keydown', function(e) {
+                if (e.key === 'Escape' && dropdown && dropdown.classList.contains('is-open')) {
+                    toggleDropdown(false);
+                    if (trigger) trigger.focus();
+                }
+            });
+
+            if (form && destInput && usernameInput) {
+                form.addEventListener('submit', function() {
+                    var dest = destInput.value || 'ipay';
+                    var rawUser = usernameInput.value.trim();
+                    // Gắn @destination vào username để SPI biết route đến đúng backend tương ứng
+                    if (rawUser && rawUser.indexOf('@') === -1 && rawUser.indexOf(':') === -1) {
+                        usernameInput.value = rawUser + '@' + dest;
+                    }
+                });
+            }
+
             var toggleBtn = document.getElementById('toggle-password-btn');
             var passwordInput = document.getElementById('password');
             if (toggleBtn && passwordInput) {

@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" width="48" height="48" role="img" aria-label="iPay Core Bank">
+  <rect width="48" height="48" rx="12" fill="#0F4C9E"/>
+  <path d="M24 10.5 38.5 20.2H9.5L24 10.5Z" fill="#FFFFFF"/>
+  <rect x="12" y="22.4" width="4.4" height="12.2" rx="1.1" fill="#FFFFFF"/>
+  <rect x="21.8" y="22.4" width="4.4" height="12.2" rx="1.1" fill="#FFFFFF"/>
+  <rect x="31.6" y="22.4" width="4.4" height="12.2" rx="1.1" fill="#FFFFFF"/>
+  <rect x="10" y="36.2" width="28" height="3.6" rx="1.8" fill="#FFFFFF"/>
+</svg>

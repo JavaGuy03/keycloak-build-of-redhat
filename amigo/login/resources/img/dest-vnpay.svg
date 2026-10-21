@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" width="48" height="48" role="img" aria-label="VNPAY Payment Gateway">
+  <rect width="48" height="48" rx="12" fill="#0B64C4"/>
+  <path d="M17.6 15.4 23.6 26.8c.2.4.8.4 1 0l6-11.4" fill="none" stroke="#FFFFFF" stroke-width="3.6" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M13.6 30.4h20.8" stroke="#FFFFFF" stroke-width="3.6" stroke-linecap="round"/>
+  <path d="M13.6 35.2h13.2" stroke="#FFFFFF" stroke-width="3.6" stroke-linecap="round" opacity="0.65"/>
+</svg>

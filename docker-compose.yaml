@@ -32,7 +32,9 @@ services:
     depends_on:
       - postgres
     networks:
-      - kc-net
+      kc-net:
+        aliases:
+          - keycloak-server
     command:
       - start
       - --optimized

@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" width="48" height="48" role="img" aria-label="MoMo E-Wallet">
+  <rect width="48" height="48" rx="12" fill="#A50064"/>
+  <path d="M13.2 32.6V20.9c0-1.5 1.2-2.7 2.7-2.7 1 0 1.9.55 2.35 1.42l3.1 5.9 3.1-5.9A2.68 2.68 0 0 1 26.8 18.2c1.5 0 2.7 1.2 2.7 2.7v11.7" fill="none" stroke="#FFFFFF" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M34.2 20.4v10.1c0 1.2-.97 2.1-2.1 2.1-1.15 0-2.1-.95-2.1-2.1V20.4c0-1.16.95-2.1 2.1-2.1 1.16 0 2.1.94 2.1 2.1Z" fill="#FFFFFF"/>
+</svg>
