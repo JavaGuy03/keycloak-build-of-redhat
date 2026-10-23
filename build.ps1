@@ -21,7 +21,7 @@ $mavenExecutable = if ($maven.Source) { $maven.Source } else { $maven.FullName }
 
 Push-Location $providerRoot
 try {
-    $mavenArgs = if ($SkipTests) { @("clean", "package", "-DskipTests") } else { @("clean", "verify") }
+    $mavenArgs = if ($SkipTests) { @("clean", "package", "-Dmaven.test.skip=true") } else { @("clean", "verify") }
     & $mavenExecutable @mavenArgs
     if ($LASTEXITCODE -ne 0) {
         throw "Maven build failed with exit code $LASTEXITCODE"
